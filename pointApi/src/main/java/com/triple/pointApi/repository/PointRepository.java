@@ -1,0 +1,36 @@
+package com.triple.pointApi.repository;
+
+import com.triple.pointApi.domain.Point;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+@Repository
+@RequiredArgsConstructor
+public class PointRepository {
+
+    @PersistenceContext
+    EntityManager em;
+
+    //포인트 증가
+    //포인트 감소
+
+
+
+    // 포인트 객체 생성
+    public Long save(Point point) {
+        System.out.println("=======PointRepository.save()=======");
+        em.persist(point);
+        return point.getId();
+    }
+
+    // 포인트 객체 찾기
+    public Point find(Long id) {
+        System.out.println("=======PointRepository.find()=======");
+        return em.find(Point.class, id);
+    }
+
+
+}
