@@ -16,17 +16,17 @@ public class PlaceRepository {
     private EntityManager em;
 
     // 장소 등록
-    public Long save(Place place) {
+    public String save(Place place) {
         System.out.println("=======PlaceRepository.save()=======");
         em.persist(place);
-        return place.getId();
+        return place.getUuid();
     }
 
 
     // 장소 조회
-    public Place findPlace(Long id) {
+    public Place findPlace(String uuid) {
         System.out.println("=======PlaceRepository.findMember()=======");
-        return em.find(Place.class, id);
+        return em.find(Place.class, uuid);
     }
 
 

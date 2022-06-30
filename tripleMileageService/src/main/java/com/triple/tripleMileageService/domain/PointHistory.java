@@ -20,7 +20,9 @@ public class PointHistory {
     @Column(name = "point_history_id")
     private Long id;
 
-//    private Point point;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "point_id")
+    private Point point;
 
     @Enumerated(EnumType.STRING)
     private PointDiscriminator discriminator; //CREATE, INCREASE, DECREASE

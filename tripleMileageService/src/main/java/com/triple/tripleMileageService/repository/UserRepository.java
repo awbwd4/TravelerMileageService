@@ -1,6 +1,5 @@
 package com.triple.tripleMileageService.repository;
 
-import com.triple.tripleMileageService.domain.Point;
 import com.triple.tripleMileageService.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -16,16 +15,16 @@ public class UserRepository {
     private EntityManager em;
 
     // 회원 등록
-    public Long save(User user) {
+    public String create(User user) {
         System.out.println("=======UserRepository.save()=======");
         em.persist(user);
-        return user.getId();
+        return user.getUuid();
     }
 
     // 회원 조회
-    public User findUser(Long id) {
+    public User findUser(String uuid) {
         System.out.println("=======UserRepository.findUser()=======");
-        return em.find(User.class, id);
+        return em.find(User.class, uuid);
     }
 
 

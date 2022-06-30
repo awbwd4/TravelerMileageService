@@ -21,17 +21,19 @@ public class UserRepositoryTest {
     @Test
     @Transactional
     @Rollback(value = false)
-    public void testSaveMember() {
+    public void testCreateUser() {
         //given
-        User user = new User("userA");
+//        User user = new User("userA");
+        User user = User.createUser("userA", "pointUuid");
+
         //when
-        Long saveMember = userRepository.save(user);
-        User findUser = userRepository.findUser(saveMember);
+        String createdUser = userRepository.create(user);
+        User findUser = userRepository.findUser(createdUser);
 
 
         //then
         // 회원 아이디 검증
-        Assertions.assertThat(findUser.getId()).isEqualTo(user.getId());
+        Assertions.assertThat(findUser.getUuid()).isEqualTo(user.getUuid());
         // 회원 이름 검증
         Assertions.assertThat(findUser.getName()).isEqualTo(user.getName());
 
