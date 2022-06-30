@@ -1,6 +1,5 @@
 package com.triple.tripleMileageService.repository;
 
-import com.triple.tripleMileageService.domain.Member;
 import com.triple.tripleMileageService.domain.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

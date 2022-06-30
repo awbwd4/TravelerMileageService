@@ -19,5 +19,8 @@ public class Point {
 
     private int point;
 
+    private String member_id;
+    private String place_id;
+
 
 }

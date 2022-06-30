@@ -3,18 +3,22 @@ package com.triple.tripleMileageService.domain;
 
 import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
+@SequenceGenerator(
+        name="REVIEW_SEQ_GENERATOR",
+        sequenceName = "REVIEW_SEQ",
+        initialValue = 1,
+        allocationSize = 50
+)
 public class Review {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE,
+            generator = "REVIEW_SEQ_GENERATOR")
     @Column(name="review_id")
     private Long id;
 
