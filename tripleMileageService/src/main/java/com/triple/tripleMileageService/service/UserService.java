@@ -1,6 +1,5 @@
 package com.triple.tripleMileageService.service;
 
-import com.triple.tripleMileageService.domain.Point;
 import com.triple.tripleMileageService.domain.User;
 import com.triple.tripleMileageService.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,20 +13,18 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Transactional(readOnly = false)
-    public Long join(User user) {
+    @Transactional
+    public String join(User user) {
 
         System.out.println("=======UserService.join=====");
 
-        //사용자 생성
-        User createdUser = User.createUser(user.getName(), new Point());
+        return userRepository.create(user);
 
-        userRepository.save(createdUser);
-
-        return createdUser.getId();
     }
 
-
+    public User findUser(String uuid) {
+        return userRepository.findUser(uuid);
+    }
 
 
 

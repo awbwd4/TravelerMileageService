@@ -1,6 +1,8 @@
 package com.triple.tripleMileageService.repository;
 
+import com.triple.tripleMileageService.domain.Place;
 import com.triple.tripleMileageService.domain.Review;
+import com.triple.tripleMileageService.domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +23,22 @@ public class ReviewRepositoryTest {
     @Test
     @Transactional
     @Rollback(value = false)
-    public void testSaveReview() {
+    public void testCreateReview() {
         //given
-        Review review = new Review("reviewA");
+        User user = User.createUser("userA", "pointId");
+        Place place = Place.createPlace("placeA");
+
+        Review review = Review.createReview("reviewContent", user, place);
+
         //when
-        Long saveMember = reviewRepository.save(review);
-        Review findReview = reviewRepository.findReview(saveMember);
+        String createdReview = reviewRepository.create(review);
+        Review findReview = reviewRepository.findReview(createdReview);
 
-
-        //then
+//        //then
+//        // 1차 캐시내 엔티티 검증
+        Assertions.assertThat(findReview).isEqualTo(review);
         // 리뷰 아이디 검증
-        Assertions.assertThat(findReview.getId()).isEqualTo(review.getId());
+        Assertions.assertThat(findReview.getUuid()).isEqualTo(review.getUuid());
         // 리뷰 내용 검증
         Assertions.assertThat(findReview.getContent()).isEqualTo(review.getContent());
 

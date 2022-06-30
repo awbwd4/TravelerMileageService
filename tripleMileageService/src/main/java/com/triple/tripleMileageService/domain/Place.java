@@ -1,30 +1,46 @@
 package com.triple.tripleMileageService.domain;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Entity
 @Getter
-@SequenceGenerator(
-        name="PLACE_SEQ_GENERATOR",
-        sequenceName = "PLACE_SEQ",
-        initialValue = 1,
-        allocationSize = 50
-)
+@Setter
 public class Place {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE,
-            generator = "PLACE_SEQ_GENERATOR")
-    @Column(name = "place_id")
-    private Long id;
+    @Column(name = "place_uuid")
+    private String uuid;
 
     @NotEmpty
     private String name;
 
-    public Place(String name) {
-        this.name = name;
+    private int review_history_count;
+    //달렸던 리뷰의 수(삭제건 포함)
+
+    private Place(String name) {}
+
+
+    /**=====생성메서드=====**/
+    public static Place createPlace(String name) {
+        Place place = new Place(name);
+        place.setUuid(UUID.randomUUID().toString());
+        place.setName(name);
+        return place;
     }
+
+    /**
+     * =====비즈니스 로직=====
+     **/
+    public void increaseReviewCount() {
+        this.review_history_count += 1;
+    }
+
+
+
+
 }

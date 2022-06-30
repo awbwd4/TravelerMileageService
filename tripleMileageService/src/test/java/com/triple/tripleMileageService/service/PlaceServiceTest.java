@@ -1,4 +1,4 @@
-package com.triple.tripleMileageService.repository;
+package com.triple.tripleMileageService.service;
 
 import com.triple.tripleMileageService.domain.Place;
 import org.assertj.core.api.Assertions;
@@ -15,30 +15,27 @@ import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PlaceRepositoryTest {
+public class PlaceServiceTest {
 
     @Autowired
-    PlaceRepository placeRepository;
+    PlaceService placeService;
+
 
     @Test
     @Transactional
     @Rollback(value = false)
-    public void testCreatePlace() {
+    public void createPlace() {
         //given
         Place place = Place.createPlace("placeA");
 
         //when
-        String savePlace = placeRepository.save(place);
-        Place findPlace = placeRepository.findPlace(savePlace);
+        String createdPlaceId = placeService.createPlace(place);
+        Place findPlace = placeService.findPlace(createdPlaceId);
 
         //then
-        // 장소 아이디 검증
-        Assertions.assertThat(findPlace.getUuid()).isEqualTo(place.getUuid());
-        // 장소 이름 검증
+        Assertions.assertThat(createdPlaceId).isEqualTo(findPlace.getUuid());
         Assertions.assertThat(findPlace.getName()).isEqualTo(place.getName());
-
     }
-
 
 
 }

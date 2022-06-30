@@ -20,10 +20,10 @@ public class PointRepository {
 
 
     // 포인트 객체 생성
-    public Long save(Point point) {
-        System.out.println("=======PointRepository.save()=======");
+    public String create(Point point) {
+        System.out.println("=======PointRepository.create()=======");
         em.persist(point);
-        return point.getId();
+        return point.getUuid();
     }
 
     // 포인트 객체 찾기

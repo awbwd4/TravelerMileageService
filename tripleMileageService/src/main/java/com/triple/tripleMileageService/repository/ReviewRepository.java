@@ -15,16 +15,16 @@ public class ReviewRepository {
     private EntityManager em;
 
     // 회원 등록
-    public Long save(Review review) {
+    public String create(Review review) {
         System.out.println("=======ReviewRepository.save()=======");
         em.persist(review);
-        return review.getId();
+        return review.getUuid();
     }
 
     // 회원 조회
-    public Review findReview(Long id) {
+    public Review findReview(String uuid) {
         System.out.println("=======ReviewRepository.findMember()=======");
-        return em.find(Review.class, id);
+        return em.find(Review.class, uuid);
     }
 
 
