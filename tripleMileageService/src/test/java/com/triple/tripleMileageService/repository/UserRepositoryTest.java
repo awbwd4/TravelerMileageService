@@ -1,6 +1,6 @@
 package com.triple.tripleMileageService.repository;
 
-import com.triple.tripleMileageService.domain.Member;
+import com.triple.tripleMileageService.domain.User;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,32 +10,30 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import static org.junit.Assert.*;
-
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class MemberRepositoryTest {
+public class UserRepositoryTest {
 
     @Autowired
-    MemberRepository memberRepository;
+    UserRepository userRepository;
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void testSaveMember() {
         //given
-        Member member = new Member("userA");
+        User user = new User("userA");
         //when
-        Long saveMember = memberRepository.save(member);
-        Member findMember = memberRepository.findMember(saveMember);
+        Long saveMember = userRepository.save(user);
+        User findUser = userRepository.findUser(saveMember);
 
 
         //then
         // 회원 아이디 검증
-        Assertions.assertThat(findMember.getId()).isEqualTo(member.getId());
+        Assertions.assertThat(findUser.getId()).isEqualTo(user.getId());
         // 회원 이름 검증
-        Assertions.assertThat(findMember.getName()).isEqualTo(member.getName());
+        Assertions.assertThat(findUser.getName()).isEqualTo(user.getName());
 
 
     }
