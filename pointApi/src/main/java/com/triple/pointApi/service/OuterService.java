@@ -3,6 +3,7 @@ package com.triple.pointApi.service;
 import com.triple.pointApi.domain.Point;
 import com.triple.pointApi.domain.PointDiscriminator;
 import com.triple.pointApi.domain.PointHistory;
+import com.triple.pointApi.exception.AbnormalPointException;
 import com.triple.pointApi.repository.PointHistoryRepository;
 import com.triple.pointApi.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,10 +31,8 @@ public class OuterService {
     /**
      * 사용자 신규 생성시
      **/
-    //아무것도 안함.
     public String createNewUserPoint(String userId) {
         return pointService.createUser(userId);
-
     }
 
 
@@ -46,12 +45,9 @@ public class OuterService {
         boolean photo = calculator.existPhoto(photos);
         boolean bonus = calculator.bonus(placeId);
 
-        System.out.println("=========OutterService.addReviewPoint 포인트 서비스 호출=======");
         //포인트 서비스 호출
-        String addPointId = pointService.addReviewPoint(userId, addPoint);
-        Point point = em.find(Point.class, addPointId);
+        Point point = getPoint(userId, addPoint);
 
-        System.out.println("=========OutterService.addReviewPoint 포인트히스토리 서비스 호출=======");
         //포인트 히스토리 리포지토리 호출
         PointHistory pointHistory = PointHistory.createPointHistory(
                 point, addPoint, PointDiscriminator.ADD, userId, placeId
@@ -69,15 +65,10 @@ public class OuterService {
         boolean photo = calculator.existPhoto(photos);
         boolean bonus = calculator.bonus(placeId);
 
-
         //포인트 서비스 호출
-//        String addPointId = pointService.(userId, addPoint);
-        String modifiedPointId = pointRepository.modifiedPoint(userId, modifiedPoint);
-        Point point = em.find(Point.class, modifiedPointId);
-
+        Point point = getPoint(userId, modifiedPoint);
 
         //포인트 히스토리 리포지토리 호출
-
         PointHistory pointHistory = PointHistory.createPointHistory(
                 point, modifiedPoint, PointDiscriminator.MOD, userId, placeId
                 , photo, bonus);
@@ -86,10 +77,56 @@ public class OuterService {
     }
 
 
+    /**
+     * 리뷰 삭제시
+     **/
+    // 해당 리뷰로 부여한 점수 삭제
+    // 포인트 히스토리에서 해당 리뷰 총합계 구한뒤 이를 사용자 포인트에서 차감
+    public void deleteReview(String userId, String placeId) {
+        int deletePoint = calculator.deletePoint(userId, placeId);
 
-    /**리뷰 삭제시**/
+        if (deletePoint >= 0) {
+            deletePoint *= -1; // 삭제할 포인트이므로 음수로 변경
+
+            Point point = getPoint(userId, deletePoint);
+
+            PointHistory pointHistory = PointHistory.createPointHistory(
+                    point, deletePoint, PointDiscriminator.DELETE, userId, placeId
+                    , false, false);
+            pointHistoryRepository.create(pointHistory);
+
+        }else{
+            throw new AbnormalPointException("포인트 점수에 이상이 있습니다.");
+        }
+    }
+
+    /**
+     * 포인트 조회시
+     **/
+    public int getAllPoint() {
+        int allPoint = 0;
+        List<Point> pointList = pointRepository.getAllPoint();
+
+        for (Point point : pointList) {
+            allPoint += point.getPoint();
+        }
+        return allPoint;
+    }
+
+    public int getPointByUserId(String userId) {
+        return pointRepository.getPointByUserId(userId).getPoint();
+    }
 
 
-    /**포인트 조회시**/
+
+
+    private Point getPoint(String userId, int deletePoint) {
+        String modifiedPointId = pointRepository.modifiedPoint(userId, deletePoint);
+        Point point = em.find(Point.class, modifiedPointId);
+        return point;
+    }
+
+
+
 
 }

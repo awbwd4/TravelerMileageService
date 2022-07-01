@@ -27,19 +27,6 @@ public class PointCalculator {
     private boolean bonus;
 
 
-    public CalculateResult calcutator(PointInfoDto dto, CalculateResult result) {
-
-
-        /**
-         * PointInfoDTO로 받은 api데이터를
-         * 포인트 증감여부, 포인트 계산 후 CalculateResult로 리턴
-         * */
-
-
-        return result;
-    }
-
-
     /**리뷰 생성시**/
     public int createAddPoint(String placeId, List<String> photos) {
 
@@ -70,7 +57,6 @@ public class PointCalculator {
         // 수정된 리뷰의 사진 여부
         boolean isPhotoExist = existPhoto(photos);
 
-
         // 기존 리뷰의 사진 존재 여부
         PointHistory findPointHistory = em.createQuery("select h from PointHistory h" +
                         " where h.seq =  (select max(ph.seq) from PointHistory ph where ph.userId = :userId and ph.placeId = :placeId)" +
@@ -79,9 +65,6 @@ public class PointCalculator {
                 .setParameter("userId", userId)
                 .setParameter("placeId", placeId)
                 .getSingleResult();
-
-
-
 
         if(!findPointHistory.isPhoto() & isPhotoExist){
         // 더해야할 포인트 : 기존에는 사진이 없었고, 수정후 사진 존재
@@ -97,16 +80,28 @@ public class PointCalculator {
 
     }
 
+    /**
+     * 리뷰 삭제시
+     **/
+    public int deletePoint(String userId, String placeId) {
+        //삭제할 점수 계산
+        int resultPoint = 0;
+
+        List<PointHistory> resultList = em.createQuery("select h from PointHistory h" +
+                        " where h.userId = :userId" +
+                        " and h.placeId = :placeId", PointHistory.class)
+                .setParameter("userId", userId)
+                .setParameter("placeId", placeId)
+                .getResultList();
+
+        for (PointHistory pointHistory : resultList) {
+            resultPoint += pointHistory.getChangedPoint();
+        }
+        return resultPoint;
+    }
 
 
-//    (select max(ph.seq) from point_history ph where ph.userId = :userId and ph.placeId = :placeId)
 
-
-
-    // 기존 리뷰 대비 사진이 삭제됐을 경우
-
-
-    // 기존 리뷰 대비 사진이 추가됐을 경우
 
 
     //사진 존재여부 체크
