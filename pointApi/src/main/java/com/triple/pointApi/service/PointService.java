@@ -18,14 +18,12 @@ public class PointService {
     //포인트 생성(사용자 최초 생성시에만)
     @Transactional
     public String createUser(String userId) {
-
         //중복회원이 있을 경우 에러 발생
+        validateDuplicateUser(userId);
 
-        //
         //포인트 히스토리 생성
         PointHistory pointHistory = PointHistory.createPointHistory
                 (0, PointDiscriminator.NEW_USER, userId, null, false, false);
-
 
         Point point = Point.createPoint(userId, pointHistory);
 
@@ -42,20 +40,10 @@ public class PointService {
     }
 
 
-
-
-    //포인트 증가
-
-    //포인트 감소
-
-    //포인트 조회_사용자
-
-    //포인트 조회_전체
-
-
-
-
-
-
-
+    private void validateDuplicateUser(String userId) {
+        Point pointByUserId = pointRepository.getPointByUserId(userId);
+        if (pointByUserId.getUserId()!=null) {
+            throw new IllegalStateException("이미 존재하는 사용자입니다.");
+        }
+    }
 }

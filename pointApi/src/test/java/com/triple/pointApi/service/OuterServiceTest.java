@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.aspectj.bridge.MessageUtil.fail;
+
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OuterServiceTest {
@@ -63,9 +65,26 @@ public class OuterServiceTest {
         // 점수가 1 증가하는 경우
 
         // 점수가 1 감소하는 경우
+    }
 
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 리뷰삭제DEL시테스트() {
+        //given
+
+        //when
+        outerService.deleteReview("userId", "placeId");
+
+        //then
+
+        //정상적으로 삭제될때
+
+        //이상이 있을때
 
 
     }
+
+
 
 }

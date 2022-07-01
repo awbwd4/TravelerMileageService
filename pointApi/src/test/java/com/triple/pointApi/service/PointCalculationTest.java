@@ -50,7 +50,7 @@ public class PointCalculationTest {
     @Test
     @Transactional
     @Rollback(value = false)
-    public void 수정포인트산정테스트() {
+    public void 수정포인트산정테스() {
 
         List<String> photos = new ArrayList<>();
         photos.add("asdf");
@@ -66,6 +66,21 @@ public class PointCalculationTest {
 //        기존리뷰에 사진이 없는경우 + 수정후에 사진이 있는 경우 : 수정 포인트 +1
         Assertions.assertThat(modifiedPoint).isEqualTo(1);
 
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 삭제포인트산정테스트() {
+        //given
+
+        //when
+        int deletePoint = pointCalculator.deletePoint("userId", "placeId");
+
+        //then
+        System.out.println("%%%%%%%%%%%%%%%%%%deletePoint%%%%%%%%%%%%%%%%% = " + deletePoint);
+        Assertions.assertThat(deletePoint).isEqualTo(2);
 
     }
 
