@@ -64,9 +64,9 @@ public class Point {
     }
 
     //포인트 감소
-    public void decreasePoint(int point) {
-        int restPoint = this.point-point;
-        if(restPoint <= 0){
+    public void modifiedPoint(int point) {
+        int restPoint = this.point+point;
+        if(restPoint < 0){
             throw new NotEnoughPointException("포인트를 더 감소시킬 수 없습니다.");
         }
         this.point = restPoint;

@@ -36,7 +36,7 @@ public class PointService {
     @Transactional
     public String addReviewPoint(String userId, int addPoint) {
         System.out.println("=======pointService.addReviewPoint==========");
-        String addPointId =  pointRepository.increasePoint(userId, addPoint);
+        String addPointId =  pointRepository.modifiedPoint(userId, addPoint);
 
         return addPointId;
     }
