@@ -48,16 +48,10 @@ public class PointRepository {
     }
 
     /** Update **/
-    //포인트 증가
-    public String increasePoint(String userId, int point) {
+    //포인트 수정
+    public String modifiedPoint(String userId, int point) {
         Point findPoint = getPointByUserId(userId);
-        findPoint.increasePoint(point);
-        return findPoint.getUuid();
-    }
-    //포인트 감소
-    public String decreasePoint(String userId, int point) {
-        Point findPoint = getPointByUserId(userId);
-        findPoint.decreasePoint(point);
+        findPoint.modifiedPoint(point);
         return findPoint.getUuid();
     }
 

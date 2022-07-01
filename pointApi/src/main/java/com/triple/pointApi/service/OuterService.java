@@ -16,12 +16,13 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class OutterService {
+public class OuterService {
 
     @PersistenceContext
     EntityManager em;
     private final PointCalculator calculator;
     private final PointService pointService;
+    private final PointRepository pointRepository;
     private final PointHistoryRepository pointHistoryRepository;
 
 
@@ -32,6 +33,7 @@ public class OutterService {
     //아무것도 안함.
     public String createNewUserPoint(String userId) {
         return pointService.createUser(userId);
+
     }
 
 
@@ -44,10 +46,12 @@ public class OutterService {
         boolean photo = calculator.existPhoto(photos);
         boolean bonus = calculator.bonus(placeId);
 
+        System.out.println("=========OutterService.addReviewPoint 포인트 서비스 호출=======");
         //포인트 서비스 호출
         String addPointId = pointService.addReviewPoint(userId, addPoint);
         Point point = em.find(Point.class, addPointId);
 
+        System.out.println("=========OutterService.addReviewPoint 포인트히스토리 서비스 호출=======");
         //포인트 히스토리 리포지토리 호출
         PointHistory pointHistory = PointHistory.createPointHistory(
                 point, addPoint, PointDiscriminator.ADD, userId, placeId
@@ -59,7 +63,25 @@ public class OutterService {
 
 
     /**리뷰 수정시**/
-    public void modReviewPoint(String userId, String placeId, List<String> photo) {
+    public void modReviewPoint(String userId, String placeId, List<String> photos) {
+
+        int modifiedPoint = calculator.modifiedPoint(userId, placeId, photos);
+        boolean photo = calculator.existPhoto(photos);
+        boolean bonus = calculator.bonus(placeId);
+
+
+        //포인트 서비스 호출
+//        String addPointId = pointService.(userId, addPoint);
+        String modifiedPointId = pointRepository.modifiedPoint(userId, modifiedPoint);
+        Point point = em.find(Point.class, modifiedPointId);
+
+
+        //포인트 히스토리 리포지토리 호출
+
+        PointHistory pointHistory = PointHistory.createPointHistory(
+                point, modifiedPoint, PointDiscriminator.MOD, userId, placeId
+                , photo, bonus);
+        pointHistoryRepository.create(pointHistory);
 
     }
 

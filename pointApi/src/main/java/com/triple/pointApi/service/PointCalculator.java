@@ -64,19 +64,42 @@ public class PointCalculator {
     /**
      * 리뷰 수정시
      **/
-    public void ModifiedPoint(String userId, String placeId, List<String> photo) {
-        //원래 리뷰에 사진이 있었는지 없었는지는..?
-        List<PointHistory> findPlaceHistory = em.createQuery("select h from PointHistory h" +
-                        " where h.userId = :userId" +
+    public int modifiedPoint(String userId, String placeId, List<String> photos) {
+        int modifiedPoint = 0;
+
+        // 수정된 리뷰의 사진 여부
+        boolean isPhotoExist = existPhoto(photos);
+
+
+        // 기존 리뷰의 사진 존재 여부
+        PointHistory findPointHistory = em.createQuery("select h from PointHistory h" +
+                        " where h.seq =  (select max(ph.seq) from PointHistory ph where ph.userId = :userId and ph.placeId = :placeId)" +
+                        " and h.userId = :userId" +
                         " and h.placeId = :placeId", PointHistory.class)
                 .setParameter("userId", userId)
                 .setParameter("placeId", placeId)
-                .getResultList();
+                .getSingleResult();
 
 
+
+
+        if(!findPointHistory.isPhoto() & isPhotoExist){
+        // 더해야할 포인트 : 기존에는 사진이 없었고, 수정후 사진 존재
+            System.out.println(" // 더해야할 포인트 : 기존에는 사진이 없었고, 수정후 사진 존재");
+            modifiedPoint = 1;
+        } else if (findPointHistory.isPhoto() & !isPhotoExist) {
+        // 빼야 할 포인트 : 기존에는 사진이 있었고, 수정후 사진 미존재
+            System.out.println("// 빼야 할 포인트 : 기존에는 사진이 있었고, 수정후 사진 미존재");
+            modifiedPoint = -1;
+        }
+
+        return modifiedPoint;
 
     }
 
+
+
+//    (select max(ph.seq) from point_history ph where ph.userId = :userId and ph.placeId = :placeId)
 
 
 

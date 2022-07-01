@@ -29,7 +29,7 @@ public class PointServiceTest {
     @Rollback(value = false)
     public void testCreateUserPointTest() {
 
-        pointService.createUser("user_id");
+        pointService.createUser("userId");
 
     }
 

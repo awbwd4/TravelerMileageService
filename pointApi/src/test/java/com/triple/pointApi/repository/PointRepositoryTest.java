@@ -83,7 +83,7 @@ public class PointRepositoryTest {
         em.persist(point);
 
         //when
-        pointRepository.increasePoint(point.getUserId(), 2);
+        pointRepository.modifiedPoint(point.getUserId(), 2);
         pointRepository.getPointByUserId("user_id1").getPoint();
 
 
@@ -101,10 +101,10 @@ public class PointRepositoryTest {
         //given
         Point point = Point.createPoint("user_Id1");
         em.persist(point);
-        pointRepository.increasePoint(point.getUserId(),5);
+        pointRepository.modifiedPoint(point.getUserId(),5);
 
         //when
-        pointRepository.decreasePoint(point.getUserId(), 2);
+        pointRepository.modifiedPoint(point.getUserId(), 2);
 
 
         //then
@@ -118,11 +118,11 @@ public class PointRepositoryTest {
         //given
         Point point = Point.createPoint("user_Id1");
         em.persist(point);
-        pointRepository.increasePoint(point.getUserId(),5);
+        pointRepository.modifiedPoint(point.getUserId(),5);
 
         System.out.println("********잔여 포인트 : " + pointRepository.getPointByUserId("user_Id1").getPoint());
         //when
-        pointRepository.decreasePoint(point.getUserId(), 9);
+        pointRepository.modifiedPoint(point.getUserId(), 9);
 
         //then
         fail("포인트 부족 예외가 발생해야 함.");

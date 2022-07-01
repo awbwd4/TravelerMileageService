@@ -13,16 +13,17 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class OutterServiceTest {
+public class OuterServiceTest {
 
     @Autowired
-    OutterService outterService;
+    OuterService outerService;
 
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void 신규회원생성시NEW포인트생성테스트() {
+        outerService.createNewUserPoint("userId");
     }
 
 
@@ -30,19 +31,41 @@ public class OutterServiceTest {
     @Transactional
     @Rollback(value = false)
     public void 리뷰등록ADD시테스트() {
-        outterService.createNewUserPoint("userId_신규회원생성시포인트생성테스트");
+        //새 사용자 생성
+        outerService.createNewUserPoint("userId");
 
         List<String> photos = new ArrayList<>();
-        photos.add("asdfa");
+//        photos.add("asdfa");
 
-        outterService.addReviewPoint("userId_신규회원생성시포인트생성테스트","placeId", photos);
+        outerService.addReviewPoint("userId","placeId", photos);
     }
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void 리뷰수정MOD시테스트() {
-        outterService.createNewUserPoint("userId_신규회원생성시포인트생성테스트");
+        //given
+//        //새 사용자 생성
+//        outterService.createNewUserPoint("userId");
+//
+        List<String> photos = new ArrayList<>();
+//        photos.add("asdfa");
+//        //첫리뷰 포인트 생성
+//        outterService.addReviewPoint("userId","placeId", photos);
+
+        //when
+        outerService.modReviewPoint("userId", "placeId", photos);
+
+
+        //then
+        // 점수 변동이 없는경우
+
+        // 점수가 1 증가하는 경우
+
+        // 점수가 1 감소하는 경우
+
+
+
     }
 
 }
