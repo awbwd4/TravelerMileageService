@@ -28,19 +28,18 @@ public class UserServiceTest {
     @Rollback(value = false)
     public void userJoinTest() {
         //given
-//        User user = new User("joinUserService");
         User user = User.createUser("userA", "pointUuIddA");
 
         //when
         String joinUserUuid = userService.join(user);
-//        System.out.println("joinUserId = " + joinUserUUidd);
-//        User findUser = userRepository.findUser(joinUserUUidd);
-//        System.out.println("findUser = " + findUser.getUuid());
+        System.out.println("joinUserId = " + joinUserUuid);
+        User findUser = userRepository.findUser(joinUserUuid);
+        System.out.println("findUser = " + findUser.getUuid());
 
 
         //then
         // 유저 정상 가입 검증
-//        Assertions.assertThat(joinUserId).isEqualTo(findUser.getId());
+        Assertions.assertThat(joinUserUuid).isEqualTo(findUser.getUuid());
 
 
     }

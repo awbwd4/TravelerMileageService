@@ -36,17 +36,13 @@ public class Review {
     private Review() {
     }
 
-    public Review(String content) {
-        this.content = content;
-    }
-
-
     /**
      * 생성 메서드
      **/
     public static Review createReview(String content, User user, Place place) {
-        Review review = new Review(content);
+        Review review = new Review();
         review.setUuid(UUID.randomUUID().toString());
+        review.setContent(content);
         review.setUser(user);
         review.setPlace(place);
 
