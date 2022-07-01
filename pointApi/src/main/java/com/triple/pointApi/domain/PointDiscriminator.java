@@ -1,5 +1,5 @@
 package com.triple.pointApi.domain;
 
 public enum PointDiscriminator {
-    CREATE, INCREASE, DECREASE
+    NEW_USER, ADD, INCREASE, DECREASE, DELETE
 }

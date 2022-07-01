@@ -23,7 +23,6 @@ public class UserRepositoryTest {
     @Rollback(value = false)
     public void testCreateUser() {
         //given
-//        User user = new User("userA");
         User user = User.createUser("userA", "pointUuid");
 
         //when

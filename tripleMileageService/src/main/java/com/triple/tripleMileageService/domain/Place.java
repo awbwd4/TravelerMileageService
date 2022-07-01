@@ -22,12 +22,13 @@ public class Place {
     private int review_history_count;
     //달렸던 리뷰의 수(삭제건 포함)
 
-    private Place(String name) {}
+    private Place() {}
 
 
     /**=====생성메서드=====**/
     public static Place createPlace(String name) {
-        Place place = new Place(name);
+        Place place = new Place();
+        place.setName(name);
         place.setUuid(UUID.randomUUID().toString());
         place.setName(name);
         return place;

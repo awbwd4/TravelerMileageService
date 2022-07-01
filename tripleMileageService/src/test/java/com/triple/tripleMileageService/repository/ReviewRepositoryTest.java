@@ -34,8 +34,8 @@ public class ReviewRepositoryTest {
         String createdReview = reviewRepository.create(review);
         Review findReview = reviewRepository.findReview(createdReview);
 
-//        //then
-//        // 1차 캐시내 엔티티 검증
+//      //then
+//      // 1차 캐시내 엔티티 검증
         Assertions.assertThat(findReview).isEqualTo(review);
         // 리뷰 아이디 검증
         Assertions.assertThat(findReview.getUuid()).isEqualTo(review.getUuid());

@@ -20,38 +20,33 @@ public class ReviewServiceTest {
 
     @Autowired
     ReviewService reviewService;
-    @Autowired
     UserService userService;
-
-    @Autowired
     PlaceService placeService;
-//
-//    @Test
-//    @Transactional
-//    @Rollback(value = false)
-//    public void testCreateReview() {
-//        //givien
-//
-//        User findUser = userService.findUser(userService.join(new User("joinUserA")));
-//        Place findPlace = placeService.findPlace(placeService.createPlace(new Place("placeA")));
-//
-//        Review review = new Review("reviewContentA");
-//
-//        //when
-//        Long createdReviewId = reviewService.createReview(review, findUser, findPlace);
-//        Review findReview = reviewService.findReview(createdReviewId);
-//
-//        //then
-//
-//        //리뷰 검증
-//        Assertions.assertThat(createdReviewId).isEqualTo(findReview.getId());
-//        //리뷰 작성자 검증
-//        Assertions.assertThat(findReview.getUser().getName()).isEqualTo(findUser.getName());
-//        //리뷰 대상 장소 검증
-//        Assertions.assertThat(findReview.getPlace().getName()).isEqualTo(findPlace.getName());
-//
-//    }
-//
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void testCreateReview() {
+        //given
+        String reviewContent = "reviewB";
+        String userUuid = "30445233-a198-42f7-bee9-456cf0b963d6";
+        String placeUuid = "df621453-537c-425e-a11d-6f0542a15bba";
+        //user와 place테이블에 데이터가 있어야 테스트 가능.
+
+        //when
+        String createdReviewId = reviewService.createReview(reviewContent, userUuid, placeUuid);
+        Review findReview = reviewService.findReview(createdReviewId);
+
+        //then
+        //리뷰 검증
+        Assertions.assertThat(createdReviewId).isEqualTo(findReview.getUuid());
+        //리뷰 작성자 검증
+        Assertions.assertThat(findReview.getUser().getUuid()).isEqualTo(userUuid);
+        //리뷰 대상 장소 검증
+        Assertions.assertThat(findReview.getPlace().getUuid()).isEqualTo(placeUuid);
+
+    }
+
 
 
 }
