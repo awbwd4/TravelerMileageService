@@ -12,7 +12,7 @@ import java.util.UUID;
 public class User{
 
     @Id
-    @Column(name = "user_uuid")
+    @Column(name = "user_id")
     private String uuid;
 
     @NotEmpty
@@ -21,8 +21,6 @@ public class User{
     private String pointId;
 
     //===생성자===//
-    private User() {
-    }
 
     //==사용자 생성 메서드==//
 

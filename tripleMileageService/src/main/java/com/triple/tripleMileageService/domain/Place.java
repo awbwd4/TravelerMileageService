@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Place {
 
     @Id
-    @Column(name = "place_uuid")
+    @Column(name = "place_id")
     private String uuid;
 
     @NotEmpty
@@ -21,9 +21,6 @@ public class Place {
 
     private int review_history_count;
     //달렸던 리뷰의 수(삭제건 포함)
-
-    private Place() {}
-
 
     /**=====생성메서드=====**/
     public static Place createPlace(String name) {

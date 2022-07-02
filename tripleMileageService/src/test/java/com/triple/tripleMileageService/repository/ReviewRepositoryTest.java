@@ -12,6 +12,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -43,6 +45,18 @@ public class ReviewRepositoryTest {
         Assertions.assertThat(findReview.getContent()).isEqualTo(review.getContent());
 
 
+    }
+
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void testFindReview() {
+        List<Review> all = reviewRepository.findAll();
+        for (Review review : all) {
+            System.out.println("review.getContent() = " + review.getContent());
+        }
     }
 
 

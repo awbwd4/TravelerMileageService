@@ -13,6 +13,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -40,6 +42,26 @@ public class UserServiceTest {
         //then
         // 유저 정상 가입 검증
         Assertions.assertThat(joinUserUuid).isEqualTo(findUser.getUuid());
+
+
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void userFindAllTest() {
+        //given
+
+        //when
+        List<User> allUser = userService.findAllUser();
+
+
+        
+        //then
+        for (User user : allUser) {
+            System.out.println("user.getName() = " + user.getName());
+        }
 
 
     }
