@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://thymeleaf.org">
+
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>트리플 여행자 클럽 마일리지 서비스</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader" />
+    <div class="jumbotron">
+        <h1>트리플 여행자 클럽 마일리지 서비스</h1>
+        <p class="lead">사용자 기능</p>
+        <p>
+            <a class="btn btn-lg btn-secondary" href="/users/new">회원 가입</a>
+            <a class="btn btn-lg btn-secondary" href="/users">회원 목록</a>
+        </p>
+        <p class="lead">장소 기능</p>
+        <p>
+            <a class="btn btn-lg btn-dark" href="/places/new">장소 등록</a>
+            <a class="btn btn-lg btn-dark" href="/places">장소 목록</a>
+        </p>
+        <p class="lead">리뷰 기능</p>
+        <p>
+            <a class="btn btn-lg btn-info" href="/reviews/new">리뷰 등록</a>
+            <a class="btn btn-lg btn-info" href="/reviews">리뷰 조회</a>
+        </p>
+        <p>
+<!--            <a class="btn btn-lg btn-info" href="/order">사용자 포인트 조회</a>-->
+            <a class="btn btn-lg btn-light" href="/points">전체 포인트 조회</a>
+        </p>
+    </div>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+
+
+</div>
+
+
+
+</body>
+</html>

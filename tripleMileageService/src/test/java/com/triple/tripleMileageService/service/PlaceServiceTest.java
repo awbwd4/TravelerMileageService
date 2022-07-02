@@ -10,6 +10,8 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 
@@ -35,6 +37,25 @@ public class PlaceServiceTest {
         //then
         Assertions.assertThat(createdPlaceId).isEqualTo(findPlace.getUuid());
         Assertions.assertThat(findPlace.getName()).isEqualTo(place.getName());
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void findPlace() {
+        //given
+        Place placeB = Place.createPlace("placeB");
+        placeService.createPlace(placeB);
+        //when
+        List<Place> allPlace = placeService.findAllPlace();
+
+
+        //then
+        for (Place place : allPlace) {
+            System.out.println("=======place1 = " + place.getName());
+        }
+
     }
 
 

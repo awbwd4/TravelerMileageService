@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.lang.reflect.Member;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -14,21 +15,22 @@ import java.util.UUID;
 public class Review {
 
     @Id
-    @Column(name="review_uuid")
+    @Column(name="review_id")
     private String uuid;
 
     @NotEmpty
     private String content;
 
-//    private String photo; // photo 객체 필요
+    @OneToMany(mappedBy = "review")
+    private List<Photo> photos; // photo 객체 필요
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_uuid")
+    @JoinColumn(name = "user_id")
     private User user;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "place_uuid")
+    @JoinColumn(name = "place_id")
     private Place place;
 
 
@@ -56,8 +58,14 @@ public class Review {
         place.increaseReviewCount();
 
         return review;
-
-
     }
+//
+//    /**
+//     * 연관관계 메서드 : 사진 첨부시 사용.
+//     * **/
+//    public addPhoto(Photo photo) {
+//
+//    }
+
 
 }

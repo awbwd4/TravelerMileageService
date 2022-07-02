@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -19,14 +21,15 @@ public class PlaceService {
 
         System.out.println("=======PlaceService.join=====");
 
-        Place createdPlace = Place.createPlace(place.getName());
-
-        return placeRepository.save(createdPlace);
+        return placeRepository.save(place);
 
     }
 
     public Place findPlace(String uuid) {
         return placeRepository.findPlace(uuid);
+    }
+    public List<Place> findAllPlace() {
+        return placeRepository.findAllPlace();
     }
 
 

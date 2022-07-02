@@ -100,10 +100,6 @@ public class PointCalculator {
         return resultPoint;
     }
 
-
-
-
-
     //사진 존재여부 체크
     public boolean existPhoto(List<String> photos) {
         if(photos.size() > 0){

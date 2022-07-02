@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.lang.reflect.Member;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -23,6 +24,7 @@ public class ReviewService {
     private final PlaceRepository placeRepository;
 
 
+    @Transactional
     public String createReview(String reviewContent, String userUuid, String placeUuid) {
 
         System.out.println("=====ReviewService.createReview=====");
@@ -40,6 +42,15 @@ public class ReviewService {
         return reviewRepository.findReview(uuid);
     }
 
+    public List<Review> findAllReview() {
+        return reviewRepository.findAll();
+    }
 
-
+//
+//    public Review modifyReview(String reviewId, String content) {
+//
+//
+//
+//        return findReview;
+//    }
 }

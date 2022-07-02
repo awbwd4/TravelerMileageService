@@ -3,6 +3,7 @@ package com.triple.tripleMileageService.service;
 import com.triple.tripleMileageService.domain.Place;
 import com.triple.tripleMileageService.domain.Review;
 import com.triple.tripleMileageService.domain.User;
+import com.triple.tripleMileageService.repository.ReviewRepository;
 import com.triple.tripleMileageService.repository.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
@@ -20,6 +21,7 @@ public class ReviewServiceTest {
 
     @Autowired
     ReviewService reviewService;
+    ReviewRepository reviewRepository;
     UserService userService;
     PlaceService placeService;
 
@@ -44,6 +46,35 @@ public class ReviewServiceTest {
         Assertions.assertThat(findReview.getUser().getUuid()).isEqualTo(userUuid);
         //리뷰 대상 장소 검증
         Assertions.assertThat(findReview.getPlace().getUuid()).isEqualTo(placeUuid);
+
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 리뷰수정테스트() {
+        //given
+        String reviewContent = "reviewC";
+        String reviewId = "e850b960-bbdd-47b5-b039-5da640e71008";
+
+        //when
+        Review review = reviewRepository.modifyReview(reviewId, reviewContent);
+
+        //then
+        //리뷰 검증
+        Assertions.assertThat(review.getContent()).isEqualTo(reviewContent);
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 리뷰검색테스트() {
+        String reviewId = "e850b960-bbdd-47b5-b039-5da640e71008";
+        Review review = reviewService.findReview(reviewId);
+
+        System.out.println("review.getUser().getName() = " + review.getUser().getName());
 
     }
 
