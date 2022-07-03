@@ -24,12 +24,6 @@ public class Point {
 
     private String userId;
 
-
-//    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "user_id")
-//    private User user;
-////    private String placeId;
-
     @OneToMany(mappedBy = "point", cascade = CascadeType.ALL)
     private List<PointHistory> historyList = new ArrayList<>();
 
@@ -45,25 +39,11 @@ public class Point {
      * ===포인트 생성 메서드====
      * 사용자의 최초 가입시에만 사용된다.
      **/
-//    public static Point createPoint(String userId, PointHistory... pointHistories
-//    ) {
-//        Point point = new Point();
-//        point.setUuid(UUID.randomUUID().toString());
-//        point.setUserId(userId);
-////        point.setPlaceId(placeId);
-//        for (PointHistory pointHistory : pointHistories) {
-//        point.addHistory(pointHistory);
-//        }
-//        return point;
-//
-//    }
     public static Point createPoint(String userId, PointHistory... pointHistories
     ) {
         Point point = new Point();
         point.setUuid(UUID.randomUUID().toString());
-//        point.setUser(user);
         point.setUserId(userId);
-//        point.setPlaceId(placeId);
         for (PointHistory pointHistory : pointHistories) {
         point.addHistory(pointHistory);
         }
@@ -74,12 +54,8 @@ public class Point {
     /**
      * 비즈니스 로직
      **/
-    // 포인트 증가
-    public void increasePoint(int point) {
-        this.point += point;
-    }
 
-    //포인트 감소
+    //포인트 변동
     public void modifiedPoint(int point) {
         int restPoint = this.point+point;
         if(restPoint < 0){
@@ -87,7 +63,5 @@ public class Point {
         }
         this.point = restPoint;
     }
-
-
 
 }
