@@ -27,7 +27,8 @@ public class ReviewRepositoryTest {
     @Rollback(value = false)
     public void testCreateReview() {
         //given
-        User user = User.createUser("userA", "pointId");
+//        User user = User.createUser("userA", "pointId");
+        User user = User.createUser("userA");
         Place place = Place.createPlace("placeA");
 
         Review review = Review.createReview("reviewContent", user, place);
@@ -57,6 +58,17 @@ public class ReviewRepositoryTest {
         for (Review review : all) {
             System.out.println("review.getContent() = " + review.getContent());
         }
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 리뷰내사진검색() {
+
+        String reviewId = "4d6a8d23-efa5-4710-bc41-7d6e5e9132f6";
+
+        reviewRepository.findReview(reviewId);
     }
 
 

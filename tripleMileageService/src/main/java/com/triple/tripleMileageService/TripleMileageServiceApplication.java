@@ -7,12 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TripleMileageServiceApplication {
 
 	public static void main(String[] args) {
-
-		Hello hello = new Hello();
-		hello.setData("tripleMileageService");
-		System.out.println("hello.getData() = " + hello.getData());
-
-
 		SpringApplication.run(TripleMileageServiceApplication.class, args);
 	}
 

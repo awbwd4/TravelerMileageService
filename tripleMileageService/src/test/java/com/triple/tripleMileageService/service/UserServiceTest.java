@@ -30,7 +30,8 @@ public class UserServiceTest {
     @Rollback(value = false)
     public void userJoinTest() {
         //given
-        User user = User.createUser("userA", "pointUuIddA");
+//        User user = User.createUser("userA", "pointUuIddA");
+        User user = User.createUser("userA");
 
         //when
         String joinUserUuid = userService.join(user);
