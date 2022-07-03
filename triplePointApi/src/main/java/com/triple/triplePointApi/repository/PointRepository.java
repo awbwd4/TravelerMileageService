@@ -37,6 +37,11 @@ public class PointRepository {
         Point findPoint = em.createQuery("select p from Point p" +
                         " where p.userId = :userId", Point.class)
                 .setParameter("userId", userId).getSingleResult();
+        /**
+         *
+         * 찾는게 없으면 에러를 안내고 그냥 빈값을 반환하도록 수정해야함!!
+         *
+         * **/
 
 
         return findPoint;

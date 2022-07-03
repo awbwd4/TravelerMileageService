@@ -18,15 +18,15 @@ public class PointCalculationTest {
 
     @Autowired
     PointCalculator pointCalculator;
+    @Autowired
     PointService pointService;
-
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void 테스트용유저생성() {
 
-        pointService.createUser("user_id");
+        pointService.createNewUserPoint("user_id");
 
     }
 

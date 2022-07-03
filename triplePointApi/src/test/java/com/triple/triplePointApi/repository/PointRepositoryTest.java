@@ -33,17 +33,12 @@ public class PointRepositoryTest {
     @Rollback(value = false)
     public void testPointTest() {
         //given
-
-//        User user = userService.findUser("2e8430c7-bfe4-46c4-a2eb-a38841e9385c");
         String userId = "2e8430c7-bfe4-46c4-a2eb-a38841e9385c";
         Point point1 = Point.createPoint(userId);
-//        Point point2 = Point.createPoint("user_id2");
+
         //when
         String createPointUuid1 = pointRepository.create(point1);
-////        String createPointUuid2 = pointRepository.create(point2);
-//        Point findPoint = pointRepository.find(createPointUuid1);
-//
-//
+
 //        //then
 //        // 포인트 엔티티 아이디 검증
 //        Assertions.assertThat(createPointUuid1).isEqualTo(point1.getUuid());
@@ -58,7 +53,6 @@ public class PointRepositoryTest {
     @Rollback(value = false)
     public void testFindAllPoint() {
 
-//        User user = userService.findUser("2e8430c7-bfe4-46c4-a2eb-a38841e9385c");
         String userId = "2e8430c7-bfe4-46c4-a2eb-a38841e9385c";
         Point point1 = Point.createPoint(userId);
         em.persist(point1);
@@ -154,5 +148,14 @@ public class PointRepositoryTest {
 
     }
 
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 유저찾기테스트() {
+        pointRepository.getPointByUserId("userId4");
+        ///
+
+    }
 
 }
