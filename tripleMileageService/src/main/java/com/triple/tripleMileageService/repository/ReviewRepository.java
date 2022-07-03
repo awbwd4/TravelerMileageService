@@ -23,11 +23,17 @@ public class ReviewRepository {
 
     @PersistenceContext
     private EntityManager em;
+    private final PhotoRepository photoRepository;
+
 
     // 회원 등록
     public String create(Review review) {
         System.out.println("=======ReviewRepository.save()=======");
         em.persist(review);
+
+        //사진이 있으면 사진리포지토리를 여기서 불러서 사진을 영속화+리뷰랑 매핑
+
+
         return review.getUuid();
     }
 
@@ -53,6 +59,27 @@ public class ReviewRepository {
     }
 
 
+    public Review findReview2(String uuid) {
+        System.out.println("=======ReviewRepository.findMember2()=======");
+//        return em.find(Review.class, uuid);
+        return em.createQuery("select r from Review r" +
+                        " join fetch r.user" +
+                        " join fetch r.place" +
+                        " where r.uuid = :uuid", Review.class)
+                .setParameter("uuid", uuid)
+                .getSingleResult();
+
+    }
+
+
+//    public List<Photo> findPhotoByReview(String uuid) {
+//        return em.createQuery("select ")
+//    }
+//
+
+
+
+
     @Transactional
     public Review modifyReview(String reviewId, String content) {
         System.out.println("=====ReviewService.modifyReview=====");
@@ -61,6 +88,8 @@ public class ReviewRepository {
 
         return findReview;
     }
+
+
 
 
 

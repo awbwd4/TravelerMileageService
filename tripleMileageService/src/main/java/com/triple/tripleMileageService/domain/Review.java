@@ -7,6 +7,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.lang.reflect.Member;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class Review {
     private String content;
 
     @OneToMany(mappedBy = "review")
-    private List<Photo> photos; // photo 객체 필요
+    private List<Photo> photos = new ArrayList<>(); // photo 객체 필요
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")

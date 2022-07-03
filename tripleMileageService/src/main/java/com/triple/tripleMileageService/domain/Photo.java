@@ -39,6 +39,7 @@ public class Photo {
         photo.setOriginalPhotoName(originalPhotoName);
         photo.setStoredPhotoPath(storedPhotoPath);
         photo.setPhotoSize(photoSize);
+//        review.getPhotos().add(photo);
         return photo;
     }
 
