@@ -1,10 +1,8 @@
-package com.triple.tripleMileageService.service;
+package com.triple.triplePointApi.service;
 
-import com.triple.tripleMileageService.domain.Point;
-import com.triple.tripleMileageService.domain.PointDiscriminator;
-import com.triple.tripleMileageService.domain.PointHistory;
-import com.triple.tripleMileageService.domain.User;
-import com.triple.tripleMileageService.repository.PointRepository;
+import com.triple.triplePointApi.domain.Point;
+import com.triple.triplePointApi.domain.PointHistory;
+import com.triple.triplePointApi.repository.PointRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class PointService {
 
     private final PointRepository pointRepository;
-    private final UserService userService;
 
     //포인트 생성(사용자 최초 생성시에만)
     @Transactional
@@ -24,7 +21,7 @@ public class PointService {
 //        validateDuplicateUser(userId);
         //포인트 히스토리 생성
         PointHistory pointHistory = PointHistory.createPointHistory
-                (0, PointDiscriminator.NEW_USER, userId, null, false, false);
+                (0, "NEW_USER", userId, null, false, false);
 
         Point point = Point.createPoint(userId, pointHistory);
 

@@ -1,9 +1,7 @@
-package com.triple.tripleMileageService.repository;
+package com.triple.triplePointApi.repository;
 
-import com.triple.tripleMileageService.domain.Point;
-import com.triple.tripleMileageService.domain.User;
-import com.triple.tripleMileageService.exception.NotEnoughPointException;
-import com.triple.tripleMileageService.service.UserService;
+import com.triple.triplePointApi.domain.Point;
+import com.triple.triplePointApi.exception.NotEnoughPointException;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,8 +23,6 @@ public class PointRepositoryTest {
 
     @Autowired
     PointRepository pointRepository;
-    @Autowired
-    UserService userService;
     @Autowired
     EntityManager em;
 
@@ -93,7 +89,6 @@ public class PointRepositoryTest {
     @Rollback(value = false)
     public void testIncreaseTest() {
         //given
-        User user = userService.findUser("2e8430c7-bfe4-46c4-a2eb-a38841e9385c");
         String userId = "2e8430c7-bfe4-46c4-a2eb-a38841e9385c";
         Point point1 = Point.createPoint(userId);
 

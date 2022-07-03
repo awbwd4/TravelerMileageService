@@ -1,7 +1,6 @@
-package com.triple.tripleMileageService.repository;
+package com.triple.repository;
 
-import com.triple.tripleMileageService.domain.Point;
-import com.triple.tripleMileageService.domain.User;
+import com.triple.domain.Point;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -35,11 +34,9 @@ public class PointRepository {
 
     //포인트 조회_사용자
     public Point getPointByUserId(String userId) {
-        User user = em.find(User.class, userId);
-
         Point findPoint = em.createQuery("select p from Point p" +
-                        " where p.user = :user", Point.class)
-                .setParameter("user", user).getSingleResult();
+                        " where p.userId = :userId", Point.class)
+                .setParameter("userId", userId).getSingleResult();
 
 
         return findPoint;

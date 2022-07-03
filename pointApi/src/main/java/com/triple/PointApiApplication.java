@@ -1,13 +1,13 @@
-package com.triple.tripleMileageService;
+package com.triple;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class TripleMileageServiceApplication {
+public class PointApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(TripleMileageServiceApplication.class, args);
+		SpringApplication.run(PointApiApplication.class, args);
 	}
 
 }

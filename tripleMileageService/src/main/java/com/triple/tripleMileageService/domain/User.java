@@ -18,17 +18,20 @@ public class User{
     @NotEmpty
     private String name;
 
-    private String pointId;
+//    @OneToOne(mappedBy = "user")
+//    private Point point;
 
     //===생성자===//
 
     //==사용자 생성 메서드==//
 
-    public static User createUser(String name, String pointUuid) {
+    public static User createUser(String name
+//            , String pointUuid
+    ) {
         User user = new User();
         user.setName(name);
         user.setUuid(UUID.randomUUID().toString());
-        user.setPointId(pointUuid);
+//        user.setPointId(pointUuid);
         return user;
     }
 

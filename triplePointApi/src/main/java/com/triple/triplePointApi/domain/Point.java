@@ -1,6 +1,6 @@
-package com.triple.tripleMileageService.domain;
+package com.triple.triplePointApi.domain;
 
-import com.triple.tripleMileageService.exception.NotEnoughPointException;
+import com.triple.triplePointApi.exception.NotEnoughPointException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

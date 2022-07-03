@@ -1,6 +1,16 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header" />
+<head th:replace="fragments/header :: header">
+    <script>
+        function insertReview
+
+
+
+    </script>
+
+
+
+</head>
 <body>
 <div class="container">
     <div th:replace="fragments/bodyHeader :: bodyHeader"/>
@@ -44,7 +54,7 @@
 <!--            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Incorrect date</p>-->
 <!--        </div>-->
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" th:onclick="insertReview([[${board.idx}]])">Submit</button>
 
     </form>
     <br/>

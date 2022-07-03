@@ -27,7 +27,8 @@ public class ReviewRepositoryTest {
     @Rollback(value = false)
     public void testCreateReview() {
         //given
-        User user = User.createUser("userA", "pointId");
+//        User user = User.createUser("userA", "pointId");
+        User user = User.createUser("userA");
         Place place = Place.createPlace("placeA");
 
         Review review = Review.createReview("reviewContent", user, place);
