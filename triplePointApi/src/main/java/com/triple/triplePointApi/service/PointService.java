@@ -6,11 +6,11 @@ public interface PointService {
 
     String createNewUserPoint(String userId);
 
-    void addReviewPoint(String userId, String placeId, List<String> photos);
+    String addReviewPoint(String userId, String placeId, List<String> photos);
 
-    void modReviewPoint(String userId, String placeId, List<String> photos);
+    String modReviewPoint(String userId, String placeId, List<String> photos);
 
-    void deleteReview(String userId, String placeId);
+    boolean deleteReview(String userId, String placeId);
 
     int getAllPoint();
 
