@@ -1,18 +1,17 @@
-package com.triple.tripleMileageService.repository;
+package com.triple.triplePointApi.repository;
 
-import com.triple.tripleMileageService.domain.Point;
-import com.triple.tripleMileageService.domain.User;
+import com.triple.triplePointApi.domain.Point;
+import com.triple.triplePointApi.exception.NoUserPointDataException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class PointRepository {
+public class PointRepositoryImpl implements PointRepository{
 
     @PersistenceContext
     EntityManager em;
@@ -36,34 +35,29 @@ public class PointRepository {
 
     //포인트 조회_사용자
     public Point getPointByUserId(String userId) {
-        em.createQuery("select p from Point p" +
+        return em.createQuery("select p from Point p" +
                         " where p.userId = :userId", Point.class)
-                .setParameter("userId", userId).getSingleResult();
-
-        return find(userId);
-
-
-        /**
-         *
-         * 찾는게 없으면 에러를 안내고 그냥 빈값을 반환하도록 수정해야함!!
-         *
-         * **/
-
-//        return Optional.ofNullable(findPoint);
-//        return findPoint;
+                .setParameter("userId", userId)
+                .getResultList().stream().findFirst().orElse(null);
     }
 
+
     //포인트 조회_전체
-    public List<Point> getAllPoint() {
+    public List<Point> getAllPoints() {
         return em.createQuery("select p from Point p", Point.class)
                 .getResultList();
     }
 
+
+
     /** Update **/
     //포인트 수정
-    public String modifiedPoint(String userId, int point) {
+    public String modifyPoint(String userId, int point) {
         Point findPoint = getPointByUserId(userId);
-        findPoint.modifiedPoint(point);
+        if (findPoint == null){
+            throw new NoUserPointDataException("해당 사용자에 대한 포인트 정보가 없습니다.");
+        }
+        findPoint.modifyPoint(point);
         return findPoint.getUuid();
     }
 

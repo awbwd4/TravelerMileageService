@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 
 @Repository
 @RequiredArgsConstructor
-public class PointHistoryRepository {
+public class PointHistoryRepositoryImpl {
 
     @PersistenceContext
     EntityManager em;

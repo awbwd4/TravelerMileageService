@@ -15,7 +15,7 @@ import java.util.UUID;
 @Setter
 @Table(name = "point")
 @NoArgsConstructor
-public class Point {
+public class Point extends BaseTimeEntity{
 
     @Id
     @Column(name = "point_uuid")
@@ -56,7 +56,7 @@ public class Point {
      **/
 
     //포인트 변동
-    public void modifiedPoint(int point) {
+    public void modifyPoint(int point) {
         int restPoint = this.point+point;
         if(restPoint < 0){
             throw new NotEnoughPointException("포인트를 더 감소시킬 수 없습니다.");

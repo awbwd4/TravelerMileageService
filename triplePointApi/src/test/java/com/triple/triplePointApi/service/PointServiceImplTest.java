@@ -1,5 +1,6 @@
 package com.triple.triplePointApi.service;
 
+import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,31 +14,39 @@ import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class PointServiceTest {
+public class PointServiceImplTest {
 
     @Autowired
-    PointService pointService;
-
+    PointServiceImpl pointServiceImpl;
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void 신규회원생성시NEW포인트생성테스트() {
-        pointService.createNewUserPoint("userId3");
+        pointServiceImpl.createNewUserPoint("userId1");
+        pointServiceImpl.createNewUserPoint("userId2");
+        pointServiceImpl.createNewUserPoint("userId3");
+        pointServiceImpl.createNewUserPoint("userId4");
     }
-
 
     @Test
     @Transactional
     @Rollback(value = false)
     public void 리뷰등록ADD시테스트() {
         //새 사용자 생성
+//        pointServiceImpl.createNewUserPoint("userId1");
+//        pointServiceImpl.createNewUserPoint("userId2");
+//        pointServiceImpl.createNewUserPoint("userId3");
+//        pointServiceImpl.createNewUserPoint("userId4");
 //        outerService.createNewUserPoint("userId3");
 
         List<String> photos = new ArrayList<>();
-//        photos.add("asdfa");
+        photos.add("asdfa");
 
-        pointService.addReviewPoint("userId3","placeId", photos);
+        pointServiceImpl.addReviewPoint("userId1", "placeId", photos);
+//        pointServiceImpl.addReviewPoint("userId2", "placeId", photos);
+//        pointServiceImpl.addReviewPoint("userId3", "placeId", photos);
+//        pointServiceImpl.addReviewPoint("userId4", "placeId", photos);
     }
 
     @Test
@@ -49,12 +58,12 @@ public class PointServiceTest {
 //        outterService.createNewUserPoint("userId");
 //
         List<String> photos = new ArrayList<>();
-//        photos.add("asdfa");
+        photos.add("asdfa");
 //        //첫리뷰 포인트 생성
 //        outterService.addReviewPoint("userId","placeId", photos);
 
         //when
-        pointService.modReviewPoint("3ab56565-35b3-40a8-8029-7e945ea6fc5c", "placeId", photos);
+        pointServiceImpl.modReviewPoint("userId1", "placeId", photos);
 
 
         //then
@@ -72,17 +81,29 @@ public class PointServiceTest {
         //given
 
         //when
-        pointService.deleteReview("3ab56565-35b3-40a8-8029-7e945ea6fc5c", "placeId");
+        pointServiceImpl.deleteReview("userId4", "placeId");
 
         //then
 
         //정상적으로 삭제될때
 
         //이상이 있을때
-
-
     }
 
 
+    @Test
+    @Transactional
+    public void 회원별포인트조회() {
+        //given
+
+        //when
+        int userId1 = pointServiceImpl.getPointByUserId("userId1");
+        //then
+
+        Assertions.assertThat(userId1).isEqualTo(3);
+
+
+
+    }
 
 }
