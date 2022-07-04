@@ -35,10 +35,10 @@ public class PointRepositoryImpl implements PointRepository{
 
     //포인트 조회_사용자
     public Point getPointByUserId(String userId) {
-        return em.createQuery("select p from Point p" +
-                        " where p.userId = :userId", Point.class)
-                .setParameter("userId", userId)
-                .getResultList().stream().findFirst().orElse(null);
+            return em.createQuery("select p from Point p" +
+                            " where p.userId = :userId", Point.class)
+                    .setParameter("userId", userId)
+                    .getResultList().stream().findFirst().orElse(null);
     }
 
 

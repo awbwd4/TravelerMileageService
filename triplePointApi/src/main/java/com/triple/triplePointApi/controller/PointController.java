@@ -2,7 +2,6 @@ package com.triple.triplePointApi.controller;
 
 
 import com.triple.triplePointApi.dto.PointEventRequest;
-import com.triple.triplePointApi.dto.PointEventResponse;
 import com.triple.triplePointApi.dto.StatusEnum;
 import com.triple.triplePointApi.dto.UserPoint;
 import com.triple.triplePointApi.service.PointService;
@@ -25,46 +24,9 @@ public class PointController {
 
     private final PointService pointService;
 
-
-    @GetMapping("/posts")
-    public String get(@RequestParam(value = "name")String name) {
-
-        return name;
-    }
-
-    @PostMapping("/post")
-    public PostResponse post(@RequestBody PointEventRequest request) {
-        String content = request.getContent();
-        log.info("==============================");
-
-        System.out.println(request.toString());
-
-        System.out.println(request.getAction().getClass().getName());
-        String action = request.getAction();
-
-        if (request.getAction().equals("NEW")) {
-
-            String newUserPointId =   pointService.createNewUserPoint(request.getUserId());
-            return new PostResponse(newUserPointId);
-        }
-        log.info("==============================");
-        return new PostResponse(content);
-    }
-
-    @Data
-    static class PostResponse{
-        private String a;
-
-        public PostResponse(String a) {
-            this.a = a;
-        }
-    }
-
-
     /**
      * 포인트 조회
      **/
-
     @GetMapping(path="/points/{userId}")
     public ResponseEntity<PointEventResponse> userPoint1(@PathVariable String userId) {
 
@@ -75,22 +37,19 @@ public class PointController {
         headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
 
         PointEventResponse response = new PointEventResponse();
-        response.setStatusEnum(StatusEnum.OK);
+        response.setStatus(200);
         response.setMessage("성공");
         response.setData(userPoint);
-//        return userPoint;
+
         return new ResponseEntity<>(response, headers, HttpStatus.OK);
+
     }
-
-
-
-
 
     /**
      * 포인트 생성(신규가입자) / 추가(리뷰등록시) / 수정 / 삭제 시
      **/
     @PostMapping("/events")
-    public void pointEvents(@RequestBody @Valid PointEventRequest request) {
+    public ResponseEntity<PointEventResponse>  pointEvents(@RequestBody @Valid PointEventRequest request) {
         //포인트 생성시(신규가입)
         if (request.getAction().equals("NEW")) {
             log.info("===============POST /events : NEW============");
@@ -111,25 +70,17 @@ public class PointController {
             log.info("===============POST /events : DELETE============");
             pointService.deleteReview(request.getUserId(), request.getPlaceId());
         }
+
+        log.info("===============응답하기=======기====");
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        PointEventResponse response = new PointEventResponse();
+        response.setStatus(200);
+        response.setMessage("성공");
+//        response.setData(userPoint);
+
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
     }
-
-
-
 }
 
-
-
-
-
-/*
-{
-    "type":"REVIEW",
-    "action":"ADD",
-    "reviewId":"리리리리류뷰뷰뷰뷰",
-    "content":"내용내용내용",
-    "attachedPhotoIds": ["사진!!!"],
-    "userId":"userId3",
-    "placeId" : "placeId"
-}
-
-        */
