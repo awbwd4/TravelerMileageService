@@ -14,7 +14,7 @@ import javax.persistence.*;
         initialValue = 1,
         allocationSize = 50
 )
-public class PointHistory {
+public class PointHistory extends BaseTimeEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,

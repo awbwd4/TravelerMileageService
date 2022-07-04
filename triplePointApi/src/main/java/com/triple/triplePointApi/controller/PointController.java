@@ -2,16 +2,21 @@ package com.triple.triplePointApi.controller;
 
 
 import com.triple.triplePointApi.dto.PointEventRequest;
+import com.triple.triplePointApi.dto.PointEventResponse;
+import com.triple.triplePointApi.dto.StatusEnum;
+import com.triple.triplePointApi.dto.UserPoint;
 import com.triple.triplePointApi.service.PointService;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.nio.charset.Charset;
 
 @Slf4j
 @RestController
@@ -22,8 +27,9 @@ public class PointController {
 
 
     @GetMapping("/posts")
-    public String get() {
-        return "hello json";
+    public String get(@RequestParam(value = "name")String name) {
+
+        return name;
     }
 
     @PostMapping("/post")
@@ -55,12 +61,29 @@ public class PointController {
     }
 
 
-
-
     /**
      * 포인트 조회
-     * **/
-//    @GetMapping("/points")
+     **/
+
+    @GetMapping(path="/points/{userId}")
+    public ResponseEntity<PointEventResponse> userPoint1(@PathVariable String userId) {
+
+        int pointByUserId = pointService.getPointByUserId(userId);
+        UserPoint userPoint = new UserPoint(userId, pointByUserId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(new MediaType("application", "json", Charset.forName("UTF-8")));
+
+        PointEventResponse response = new PointEventResponse();
+        response.setStatusEnum(StatusEnum.OK);
+        response.setMessage("성공");
+        response.setData(userPoint);
+//        return userPoint;
+        return new ResponseEntity<>(response, headers, HttpStatus.OK);
+    }
+
+
+
 
 
     /**
@@ -75,7 +98,7 @@ public class PointController {
         }
         //포인트 추가시(리뷰등록)
         else if (request.getAction().equals("ADD")) {
-            log.info("===============POST /events : ADD============");
+            log.info("===============POST /events : ADD====={}=======", request.getAttachedPhotoIds());
             pointService.addReviewPoint(request.getUserId(), request.getPlaceId(), request.getAttachedPhotoIds());
         }
         //포인트 수정시(리뷰 수정)
@@ -93,3 +116,20 @@ public class PointController {
 
 
 }
+
+
+
+
+
+/*
+{
+    "type":"REVIEW",
+    "action":"ADD",
+    "reviewId":"리리리리류뷰뷰뷰뷰",
+    "content":"내용내용내용",
+    "attachedPhotoIds": ["사진!!!"],
+    "userId":"userId3",
+    "placeId" : "placeId"
+}
+
+        */

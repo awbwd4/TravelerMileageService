@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.math.BigInteger;
 import java.util.List;
 
 @Getter
@@ -49,6 +50,7 @@ public class PointCalculator {
      * 리뷰 수정시
      **/
     public int modifiedPoint(String userId, String placeId, List<String> photos) {
+        System.out.println("=========PointCalculator.modifiedPoint========");
         int modifiedPoint = 0;
 
         // 수정된 리뷰의 사진 여부
@@ -81,6 +83,7 @@ public class PointCalculator {
      * 리뷰 삭제시
      **/
     public int deletePoint(String userId, String placeId) {
+        System.out.println("=========PointCalculator.deletePoint========");
         //삭제할 점수 계산
         int resultPoint = 0;
 
@@ -99,6 +102,7 @@ public class PointCalculator {
 
     //사진 존재여부 체크
     public boolean existPhoto(List<String> photos) {
+        System.out.println("=========PointCalculator.existPhoto========");
         if(photos.size() > 0){
             return true;
         }else{
@@ -106,19 +110,79 @@ public class PointCalculator {
         }
     }
 
-    //보너스 점수 대상 여부 체크
+   /**
+    * 보너스 점수대상 여부 확인
+    * **/
     public boolean bonus(String placeId) {
+        System.out.println("=========PointCalculator.bonus========");
+
+        /* 1. 첫 등록자인가? (히스토리 테이블내 건수 없음)*/
+
+        List<PointHistory> findPlaceHistory = getPointHistories(placeId);
+        if(findPlaceHistory.size()==0){
+            return true;
+        }
+
+         /* 2. 이전의 리뷰가 전부 삭제됐는가?(삭제 내역의수 == 등록자의 수)
+         *      - 사용자별 가장 최근 히스토리가 DELETE인 그리드의 수 == 등록자의 수
+         *      - 누군가 삭제후 새로 등록했다면? :  그리드의 수 < 등록자의 수
+         *      - 따라서 신규 등록자는 보너스 대상이 아니다. */
+
+        // 각 사용자의 최신 히스토리가 DELETE인 그리드의 수
+        int statusHistoryCount = getStatusHistoryCount(placeId, "DELETE");
+        // 댓글 단 사람의 수
+        int reviewerCount = getReviewerCount(placeId);
+        System.out.println("statusHistoryCount = " + statusHistoryCount);
+        System.out.println("reviewerCount = " + reviewerCount);
+        if(statusHistoryCount == reviewerCount){
+            return true;
+        }
+        return false;
+
+    }
+
+
+    //첫 등록자 여부
+    private List<PointHistory> getPointHistories(String placeId) {
         List<PointHistory> findPlaceHistory = em.createQuery("select h from PointHistory h" +
                         " where h.placeId = :placeId", PointHistory.class)
                 .setParameter("placeId", placeId)
                 .getResultList();
-
-        if (findPlaceHistory.size() == 0) {
-            return true;
-        }else{
-            return false;
-        }
+        return findPlaceHistory;
     }
+
+
+
+//  사용자별 가장 최근 히스토리가 DELETE인 그리드의 수
+    private int getStatusHistoryCount(String placeId, String discriminator) {
+        BigInteger count = (BigInteger) em.createNativeQuery("select count(1)" +
+                " from point_history" +
+                " where (user_id, point_history_id)" +
+                " in" +
+                    " (select user_id, max(point_history_id)" +
+                    " from point_history where place_id = :place_id" +
+                    " group by user_id)" +
+                " and discriminator = :discriminator")
+                .setParameter("place_id", placeId)
+                .setParameter("discriminator", discriminator)
+                .getSingleResult()
+                ;
+        return count.intValue();
+    }
+
+    // 등록자의 수
+    private int getReviewerCount(String placeId) {
+        BigInteger userCount = (BigInteger) em.createNativeQuery("select count(1)" +
+                        " from" +
+                        " (select 1 from point_history" +
+                        " where place_id = :place_id group by user_id) ph")
+                .setParameter("place_id", placeId)
+                .getSingleResult();
+        return userCount.intValue();
+
+    }
+
+
 
 }
 
