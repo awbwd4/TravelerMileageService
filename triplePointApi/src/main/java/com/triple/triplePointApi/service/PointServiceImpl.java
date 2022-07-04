@@ -3,6 +3,7 @@ package com.triple.triplePointApi.service;
 import com.triple.triplePointApi.domain.Point;
 import com.triple.triplePointApi.domain.PointHistory;
 import com.triple.triplePointApi.exception.AbnormalPointException;
+import com.triple.triplePointApi.exception.DuplicateDataException;
 import com.triple.triplePointApi.repository.PointHistoryRepositoryImpl;
 import com.triple.triplePointApi.repository.PointRepository;
 import com.triple.triplePointApi.repository.PointRepositoryImpl;
@@ -48,7 +49,7 @@ public class PointServiceImpl implements PointService{
     /**
      * 리뷰 최초 등록시
      **/
-    public void addReviewPoint(String userId, String placeId, List<String> photos) {
+    public String addReviewPoint(String userId, String placeId, List<String> photos) {
         int addPoint = calculator.createAddPoint(placeId, photos);
         boolean photo = calculator.existPhoto(photos);
         boolean bonus = calculator.bonus(placeId);
@@ -59,14 +60,14 @@ public class PointServiceImpl implements PointService{
         PointHistory pointHistory = PointHistory.createPointHistory(
                 point, addPoint, "ADD", userId, placeId
                 , photo, bonus);
-        pointHistoryRepositoryImpl.create(pointHistory);
 
+        return point.getUuid();
     }
 
 
 
     /**리뷰 수정시**/
-    public void modReviewPoint(String userId, String placeId, List<String> photos) {
+    public String modReviewPoint(String userId, String placeId, List<String> photos) {
 
         int modifiedPoint = calculator.modifiedPoint(userId, placeId, photos);
         boolean photo = calculator.existPhoto(photos);
@@ -81,6 +82,8 @@ public class PointServiceImpl implements PointService{
                 , photo, bonus);
         pointHistoryRepositoryImpl.create(pointHistory);
 
+        return point.getUuid();
+
     }
 
 
@@ -89,7 +92,7 @@ public class PointServiceImpl implements PointService{
      **/
     // 해당 리뷰로 부여한 점수 삭제
     // 포인트 히스토리에서 해당 리뷰 총합계 구한뒤 이를 사용자 포인트에서 차감
-    public void deleteReview(String userId, String placeId) {
+    public boolean deleteReview(String userId, String placeId) {
         int deletePoint = calculator.deletePoint(userId, placeId);
 
         if (deletePoint >= 0) {
@@ -101,6 +104,8 @@ public class PointServiceImpl implements PointService{
                     point, deletePoint, "DELETE", userId, placeId
                     , false, false);
             pointHistoryRepositoryImpl.create(pointHistory);
+
+            return true;
 
         }else{
             throw new AbnormalPointException("포인트 점수에 이상이 있습니다.");
@@ -139,7 +144,7 @@ public class PointServiceImpl implements PointService{
         Point pointByUserId = pointRepository.getPointByUserId(userId);
 
         if (pointByUserId != null) {
-            throw new IllegalStateException("이미 존재하는 회원입니다.");
+            throw new DuplicateDataException("이미 존재하는 회원입니다.");
         }
     }
 
