@@ -13,9 +13,9 @@
   - API 문서 : swagger 3.0.0
   - TEST : Junit5, Mockito
   - Database : Mysql 8.0.29
-  - 버전관리 : Git
+  - 버전관리 : Git/GitHub
   - IDE : IntelliJ 2022.1 (Community version)
-  - 기타 : homebrew, lombok
+  - 기타 : homebrew, lombok, postman
  
  ## 3. 개발 기간
   - 2022년 6월 29일 ~ 2022년 7월 5일
