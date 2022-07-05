@@ -95,3 +95,20 @@
 
 ![스크린샷 2022-07-06 오전 1 19 04](https://user-images.githubusercontent.com/31840404/177372729-7bea58cb-a4b2-4bc7-9c87-aa12bdb5ebe6.png)
 
+
+
+## 7. TEST
+  * JPA DDL-AUTO : "create"
+
+  ### 1) pointController
+![스크린샷 2022-07-06 오전 1 38 24](https://user-images.githubusercontent.com/31840404/177376179-f2ae3921-6325-421a-868d-02798d4f34f4.png)
+
+  ### 2) pointServiceImpl
+![스크린샷 2022-07-06 오전 1 39 42](https://user-images.githubusercontent.com/31840404/177376182-2d8cc1af-3fc4-4007-bed2-4c778c0a8cda.png)
+
+  ### 3) pointReposotoryImpl
+![스크린샷 2022-07-06 오전 1 41 01](https://user-images.githubusercontent.com/31840404/177376190-6b40b5e2-2e30-4c73-8b44-742960a5fe1a.png)
+
+  ### 4) pointHistoryReposotoryImpl
+![스크린샷 2022-07-06 오전 1 40 22](https://user-images.githubusercontent.com/31840404/177376184-32073e8f-51f5-45f0-a90b-ae182360bc22.png)
+
