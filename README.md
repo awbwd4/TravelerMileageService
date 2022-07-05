@@ -9,7 +9,7 @@
   - Language : java 11
   - Framework : Spring Boot 2.7.1
   - ORM : JPA
-  - Build Too : Gradle
+  - Build Tool : Gradle
   - API 문서 : swagger 3.0.0
   - TEST : Junit5, Mockito
   - Database : Mysql 8.0.29
