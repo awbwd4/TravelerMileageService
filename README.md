@@ -36,7 +36,7 @@
 ![스크린샷 2022-07-06 오전 12 13 34](https://user-images.githubusercontent.com/31840404/177362224-1b1a3d4e-e354-475f-b18f-9cd794615ffe.png)
 
   5) 사용자 포인트 조회시 : GET /points/{userId} 로 해당 사용자의 포인트를 조회합니다.
-
+![스크린샷 2022-07-06 오전 12 00 15](https://user-images.githubusercontent.com/31840404/177363717-1d6e3aee-232e-4262-b998-b37b098235a8.png)
 
 
 
