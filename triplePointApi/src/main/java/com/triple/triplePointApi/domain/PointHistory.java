@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Setter
 @SequenceGenerator(
         name="POINT_HISTORY_SEQ_GENERATOR",
-        sequenceName = "REVIEW_SEQ",
+        sequenceName = "POINT_HISTORY_SEQ",
         initialValue = 1,
         allocationSize = 50
 )
@@ -21,19 +21,14 @@ public class PointHistory extends BaseTimeEntity{
                     generator = "POINT_HISTORY_SEQ_GENERATOR")
     @Column(name = "point_history_id")
     private Long seq;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "point_id")
     private Point point;
-
-    private String discriminator; //CREATE, INCREASE, DECREASE
-
-//    @NotEmpty
-    private int changedPoint;
-
     private String userId;
     private String placeId;
     private String reviewId;
+    private String discriminator; //CREATE, INCREASE, DECREASE
+    private int changedPoint;
     private boolean photo;// 사진 첨부 여부
     private boolean bonus; // 보너스 점수 여부
 
@@ -41,9 +36,7 @@ public class PointHistory extends BaseTimeEntity{
     /**
      * == 생성자 ==
      **/
-    private PointHistory() {
-
-    }
+    private PointHistory() {}
 
     /**
      * == 생성 메서드 ==

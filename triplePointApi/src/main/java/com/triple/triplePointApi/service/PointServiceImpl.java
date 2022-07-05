@@ -7,6 +7,7 @@ import com.triple.triplePointApi.repository.PointHistoryRepositoryImpl;
 import com.triple.triplePointApi.repository.PointRepository;
 import com.triple.triplePointApi.repository.PointRepositoryImpl;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,6 +16,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -32,6 +34,7 @@ public class PointServiceImpl implements PointService{
      * 사용자 신규 생성시
      **/
     public String createNewUserPoint(String userId) throws DuplicateDataException {
+        log.info("=========PointServiceImpl.createNewUserPoint========");
         //중복회원이 있을 경우 에러 발생
         validateDuplicateUser(userId);
         //포인트 히스토리 생성
@@ -50,6 +53,7 @@ public class PointServiceImpl implements PointService{
      * 리뷰 최초 등록시
      **/
     public String addReviewPoint(String userId, String placeId, String reviewId, List<String> photos) throws NotEnoughPointException, NoUserPointDataException, DuplicateDataException {
+        log.info("=========PointServiceImpl.addReviewPoint========");
         // 해당 사용자가 남긴이력이 존재하는데
         // 해당 이력이 삭제 이력이 아닌 경우
         Optional<PointHistory> history = pointHistoryRepositoryImpl.findMostRecentPointHistory(userId, placeId);
@@ -76,6 +80,8 @@ public class PointServiceImpl implements PointService{
 
     /**리뷰 수정시**/
     public String modReviewPoint(String userId, String placeId, String reviewId, List<String> photos) throws NotEnoughPointException, NoUserPointDataException, NoSuitableReviewException {
+        log.info("=========PointServiceImpl.modReviewPoint========");
+
         //수정할 리뷰에 대한 이력이 존재하지 않거나
         //혹은 존재할경우 이미 삭제 됐을 경우
         Optional<PointHistory> history = pointHistoryRepositoryImpl.findMostRecentPointHistoryByReviewId(reviewId);
@@ -107,6 +113,8 @@ public class PointServiceImpl implements PointService{
     // 해당 리뷰로 부여한 점수 삭제
     // 포인트 히스토리에서 해당 리뷰 총합계 구한뒤 이를 사용자 포인트에서 차감
     public boolean deleteReview(String userId, String placeId, String reviewId) throws AbnormalPointException, NotEnoughPointException, NoUserPointDataException, NoSuitableReviewException {
+        log.info("=========PointServiceImpl.deleteReview========");
+
         //수정할 리뷰에 대한 이력이 존재하지 않거나
         //혹은 존재할경우 이미 삭제 됐을 경우
         Optional<PointHistory> history = pointHistoryRepositoryImpl.findMostRecentPointHistoryByReviewId(reviewId);
@@ -114,11 +122,9 @@ public class PointServiceImpl implements PointService{
             throw new NoSuitableReviewException("삭제할 리뷰내역이 존재하지 않습니다.");
         }
 
-
-
         int deletePoint = calculator.deletePoint(userId, placeId);
 
-        System.out.println("===========PointServiceImpl.deleteReview deletePoint : "+deletePoint);
+        log.info("===========PointServiceImpl.deleteReview  deletedPoint : {} "+deletePoint);
 
         if (deletePoint > 0) { //삭제할 리뷰가 있다는건 최소 1점은 차감된다는것.
             deletePoint *= -1; // 삭제할 포인트이므로 음수로 변경
@@ -130,7 +136,6 @@ public class PointServiceImpl implements PointService{
                     , false, false);
 
             pointHistoryRepositoryImpl.create(pointHistory);
-
             return true;
 
         }else{
@@ -143,6 +148,7 @@ public class PointServiceImpl implements PointService{
      **/
     @Transactional(readOnly = true)
     public int getAllPoint() {
+        log.info("=========PointServiceImpl.getAllPoint========");
         int allPoint = 0;
         List<Point> pointList = pointRepository.getAllPoints();
 
@@ -154,13 +160,13 @@ public class PointServiceImpl implements PointService{
 
     //회원별 포인트 조회
     public int getPointByUserId(String userId) {
+        log.info("=========PointServiceImpl.getPointByUserId========");
         return pointRepository.getPointByUserId(userId).getPoint();
     }
 
 
-
-
     private Point getPoint(String userId, int deletePoint) throws NotEnoughPointException, NoUserPointDataException {
+        log.info("=========PointServiceImpl.getPoint========");
         String modifiedPointId = pointRepository.modifyPoint(userId, deletePoint);
         Point point = em.find(Point.class, modifiedPointId);
         return point;
@@ -168,6 +174,7 @@ public class PointServiceImpl implements PointService{
 
     //중복 회원 검사
     private void validateDuplicateUser(String userId) throws DuplicateDataException {
+        log.info("=========PointServiceImpl.validateDuplicateUser========");
         Point pointByUserId = pointRepository.getPointByUserId(userId);
 
         if (pointByUserId != null) {

@@ -20,6 +20,7 @@ public class Point extends BaseTimeEntity{
     @Id
     @Column(name = "point_uuid")
     private String uuid;
+
     private int point;
 
     private String userId;
