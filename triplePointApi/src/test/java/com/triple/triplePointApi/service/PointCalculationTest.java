@@ -1,5 +1,6 @@
 package com.triple.triplePointApi.service;
 
+import com.triple.triplePointApi.exception.DuplicateDataException;
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -29,7 +30,7 @@ public class PointCalculationTest {
     @Test
     @Transactional
     @Rollback(value = false)
-    public void 테스트용유저생성() {
+    public void 테스트용유저생성() throws DuplicateDataException {
 
         pointServiceImpl.createNewUserPoint("user_id");
 

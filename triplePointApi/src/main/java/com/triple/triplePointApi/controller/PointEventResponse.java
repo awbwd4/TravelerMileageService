@@ -25,6 +25,10 @@ public class PointEventResponse {
         this.message = message;
         return this;
     }
+    public PointEventResponse data(Object data) {
+        this.data = data;
+        return this;
+    }
 
 
 

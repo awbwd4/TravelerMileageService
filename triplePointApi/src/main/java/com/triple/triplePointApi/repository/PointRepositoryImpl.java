@@ -2,6 +2,7 @@ package com.triple.triplePointApi.repository;
 
 import com.triple.triplePointApi.domain.Point;
 import com.triple.triplePointApi.exception.NoUserPointDataException;
+import com.triple.triplePointApi.exception.NotEnoughPointException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -52,7 +53,7 @@ public class PointRepositoryImpl implements PointRepository{
 
     /** Update **/
     //포인트 수정
-    public String modifyPoint(String userId, int point) {
+    public String modifyPoint(String userId, int point) throws NotEnoughPointException, NoUserPointDataException {
         Point findPoint = getPointByUserId(userId);
         if (findPoint == null){
             throw new NoUserPointDataException("해당 사용자에 대한 포인트 정보가 없습니다.");

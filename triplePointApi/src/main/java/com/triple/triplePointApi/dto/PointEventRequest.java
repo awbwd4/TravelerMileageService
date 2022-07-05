@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -27,6 +28,20 @@ public class PointEventRequest {//이벤트 관련 요청용 DTO
     private String userId;
 
     private String placeId;
+
+    static public PointEventRequest create() {
+        return new PointEventRequest();
+    }
+
+    public PointEventRequest type(String type) {
+        this.type = type;
+        return this;
+    }
+    public PointEventRequest action(String action) {
+        this.action = action;
+        return this;
+    }
+
 
 
 }

@@ -1,6 +1,6 @@
 package com.triple.triplePointApi.exception;
 
-public class NotEnoughPointException extends RuntimeException{
+public class NotEnoughPointException extends Exception{
 
     public NotEnoughPointException() {
         super();

@@ -16,6 +16,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.persistence.NoResultException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @ControllerAdvice
@@ -23,7 +24,6 @@ import java.util.Map;
 public class ControllerExceptionHandler {
 
     private final Logger logger = LoggerFactory.getLogger(ControllerExceptionHandler.class);
-
 
 
     //잘못된요청인경우
@@ -52,6 +52,7 @@ public class ControllerExceptionHandler {
                 .create()
                 .status(HttpStatus.BAD_REQUEST.value())
                 .message(e.getMessage());
+
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -98,16 +99,5 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<PointEventResponse> handleException(MethodArgumentNotValidException e) {
-        logger.error("handleException", e);
 
-        PointEventResponse response
-                = PointEventResponse
-                .create()
-                .status(HttpStatus.BAD_REQUEST.value())
-                .message(e.getFieldError().getDefaultMessage());
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-    }
 }

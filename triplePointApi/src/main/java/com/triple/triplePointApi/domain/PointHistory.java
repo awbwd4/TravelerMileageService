@@ -33,6 +33,7 @@ public class PointHistory extends BaseTimeEntity{
 
     private String userId;
     private String placeId;
+    private String reviewId;
     private boolean photo;// 사진 첨부 여부
     private boolean bonus; // 보너스 점수 여부
 
@@ -48,25 +49,30 @@ public class PointHistory extends BaseTimeEntity{
      * == 생성 메서드 ==
      **/
     //포인트 히스토리 생성
+    /**
+     * 사용자 신규 생성시
+     **/
     public static PointHistory createPointHistory(int changedPoint, String discriminator
             , String userId, String placeId
             , boolean photo, boolean bonus) {
 
         PointHistory pointHistory = new PointHistory();
-//        pointHistory.setPoint(point);
         pointHistory.setChangedPoint(changedPoint);
         pointHistory.setDiscriminator(discriminator);
         pointHistory.setUserId(userId);
         pointHistory.setPlaceId(placeId);
+
         pointHistory.setPhoto(photo);
         pointHistory.setBonus(bonus);
 
         return pointHistory;
     }
 
-
+    /**
+     * 리뷰 최초 등록시, 리뷰 수정시, 리뷰 삭제시
+     **/
     public static PointHistory createPointHistory(Point point, int changedPoint, String discriminator
-            , String userId, String placeId
+            , String userId, String placeId, String reviewId
             , boolean photo, boolean bonus) {
 
         PointHistory pointHistory = new PointHistory();
@@ -75,6 +81,7 @@ public class PointHistory extends BaseTimeEntity{
         pointHistory.setDiscriminator(discriminator);
         pointHistory.setUserId(userId);
         pointHistory.setPlaceId(placeId);
+        pointHistory.setReviewId(reviewId);
         pointHistory.setPhoto(photo);
         pointHistory.setBonus(bonus);
 

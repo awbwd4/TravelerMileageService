@@ -1,6 +1,6 @@
 package com.triple.triplePointApi.exception;
 
-public class AbnormalPointException extends RuntimeException{
+public class AbnormalPointException extends Exception{
 
     public AbnormalPointException() {
         super();

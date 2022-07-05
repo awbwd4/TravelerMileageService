@@ -1,6 +1,6 @@
 package com.triple.triplePointApi.exception;
 
-public class NoMatchedRequestActionException extends RuntimeException{
+public class NoMatchedRequestActionException extends Exception{
 
     public NoMatchedRequestActionException() {
         super();
