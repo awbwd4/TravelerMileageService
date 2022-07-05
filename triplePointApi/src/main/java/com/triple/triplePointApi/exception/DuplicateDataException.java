@@ -1,6 +1,6 @@
 package com.triple.triplePointApi.exception;
 
-public class DuplicateDataException extends RuntimeException{
+public class DuplicateDataException extends Exception{
 
     public DuplicateDataException() {
         super();

@@ -72,7 +72,7 @@ public class PointRepositoryImplTest {
     @Test
     @Transactional
     @Rollback(value = false)
-    public void testIncreaseTest() {
+    public void testIncreaseTest() throws NotEnoughPointException, NoUserPointDataException {
         //given
         String userId = "2e8430c7-bfe4-46c4-a2eb-a38841e9385c";
         Point point1 = Point.createPoint(userId);
@@ -95,7 +95,7 @@ public class PointRepositoryImplTest {
     @Test
     @Transactional
     @Rollback(value = false)
-    public void testDecreaseTest() {
+    public void testDecreaseTest() throws NotEnoughPointException, NoUserPointDataException {
         String userId = "2e8430c7-bfe4-46c4-a2eb-a38841e9385c";
         //given
         Point point = Point.createPoint(userId);
@@ -133,7 +133,7 @@ public class PointRepositoryImplTest {
     @Test(expected = NoUserPointDataException.class)
     @Transactional
     @Rollback(value = false)
-    public void 포인트수정시해당사용자가없는경우() {
+    public void 포인트수정시해당사용자가없는경우() throws NotEnoughPointException, NoUserPointDataException {
         //given
 
         //when

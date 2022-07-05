@@ -74,6 +74,7 @@ public class PointController {
             response.setStatus(400);
             response.setMessage("ERROR");
             response.setData(error);
+            status = HttpStatus.BAD_REQUEST;
 
         }else {
 
@@ -85,25 +86,26 @@ public class PointController {
             //포인트 추가시(리뷰등록)
             else if (request.getAction().equals("ADD")) {
                 log.info("===============POST /events : ADD====={}=======", request.getAttachedPhotoIds());
-                data = pointService.addReviewPoint(request.getUserId(), request.getPlaceId(), request.getAttachedPhotoIds());
+                data = pointService.addReviewPoint(request.getUserId(), request.getPlaceId(), request.getReviewId(), request.getAttachedPhotoIds());
             }
             //포인트 수정시(리뷰 수정)
             else if (request.getAction().equals("MOD")) {
                 log.info("===============POST /events : MOD============");
-                data = pointService.modReviewPoint(request.getUserId(), request.getPlaceId(), request.getAttachedPhotoIds());
+                data = pointService.modReviewPoint(request.getUserId(), request.getPlaceId(),request.getReviewId(), request.getAttachedPhotoIds());
             }
             //포인트 삭제시(리뷰 삭제)
             else if (request.getAction().equals("DELETE")) {
                 log.info("===============POST /events : DELETE============");
-                data = pointService.deleteReview(request.getUserId(), request.getPlaceId());
+                data = pointService.deleteReview(request.getUserId(), request.getPlaceId(), request.getReviewId());
             } else {
-                throw new NoMatchedRequestActionException("API 내 action을 확인바랍니다.");
-            }
+                throw new NoMatchedRequestActionException("action을 확인바랍니다.");
+            } 
             response.setStatus(200);
             response.setMessage("SUCCESS");
             response.setData(data);
+            status = HttpStatus.OK;
         }
-        status = HttpStatus.BAD_REQUEST;
+
 
         return new ResponseEntity<>(response, headers, status);
     }

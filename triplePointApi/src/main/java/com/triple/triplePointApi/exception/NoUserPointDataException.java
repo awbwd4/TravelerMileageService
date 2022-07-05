@@ -1,6 +1,6 @@
 package com.triple.triplePointApi.exception;
 
-public class NoUserPointDataException extends RuntimeException{
+public class NoUserPointDataException extends Exception{
 
     public NoUserPointDataException() {
         super();
