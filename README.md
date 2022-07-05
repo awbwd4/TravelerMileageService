@@ -23,6 +23,21 @@
 
 ## 4. API 명세
 
+  1) 사용자 신규 가입시 : "action"에 "NEW"를 추가하였습니다. 요청시 받은 userId로 Point 테이블과 PointHistory 테이블에 데이터를 생성합니다.
+![스크린샷 2022-07-06 오전 12 20 59](https://user-images.githubusercontent.com/31840404/177362155-b3ba9453-ab5e-4c73-b334-c22f45fbd013.png)
+
+  2) 리뷰 등록시 : "action"의 "ADD"로 리뷰 생성에 따른 포인트를 부여합니다. 포인트 ID를 반환합니다.
+![스크린샷 2022-07-06 오전 12 06 04](https://user-images.githubusercontent.com/31840404/177362172-a6d7a08d-7628-40a3-b29e-c4af90e33956.png)
+
+  3) 리뷰 수정시 : "action"의 "MOD"로 리뷰 수정에 따라 포인트를 증감합니다. 포인트 ID를 반환합니다.
+![스크린샷 2022-07-06 오전 12 06 39](https://user-images.githubusercontent.com/31840404/177362201-9a07ea8a-2301-4620-b89f-b9f379cd1b94.png)
+
+  4) 리뷰 삭제시 : "action"의 "DELETE"로 리뷰 등록에 부여한 포인트를 회수합니다. true/false를 반환합니다.
+![스크린샷 2022-07-06 오전 12 13 34](https://user-images.githubusercontent.com/31840404/177362224-1b1a3d4e-e354-475f-b18f-9cd794615ffe.png)
+
+  5) 사용자 포인트 조회시 : GET /points/{userId} 로 해당 사용자의 포인트를 조회합니다.
+
+
 
 
 ## 5. DDL
