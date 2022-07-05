@@ -92,3 +92,6 @@
 
 
 ## 6. ERD
+
+![스크린샷 2022-07-06 오전 1 19 04](https://user-images.githubusercontent.com/31840404/177372729-7bea58cb-a4b2-4bc7-9c87-aa12bdb5ebe6.png)
+
