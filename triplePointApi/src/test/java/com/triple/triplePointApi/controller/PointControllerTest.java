@@ -116,7 +116,7 @@ public class PointControllerTest {
                 .type("REVIEW")
                 .action("NEW");
 
-        request.setUserId("userId9");
+        request.setUserId("userId");
         List<String> photos = new ArrayList<>();
         request.setAttachedPhotoIds(photos);
 
@@ -459,6 +459,108 @@ public class PointControllerTest {
         ResultActions results3 = mvc.perform(post("/events")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request3))
+                ).andExpect(status().isOk())
+                .andDo(print());
+
+
+    }
+
+
+
+
+    @Test
+    @Transactional
+    @Rollback(value = false)
+    public void 리뷰삭제후재등록테스트() throws Exception {
+        /** 리뷰 삭제시
+         *  DELETE로 요청이 들어오며
+         *  포인트 히스토리를 바탕으로 해당 리뷰에 대한 점수가 차감된다.
+         *  포인트가 차감된 이력도 포인트 히스토리에 저장된다.
+         *  포인트 id반환
+         * **/
+
+        /**given**/
+        // 사용자 정보가 존재해야함.
+        //신규생성
+        PointEventRequest request1 = PointEventRequest.create()
+                .type("REVIEW")
+                .action("NEW");
+
+        request1.setUserId("userId");
+
+        System.out.println(request1.toString());
+
+        ResultActions results1 = mvc.perform(post("/events")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request1)))
+                .andDo(print());
+
+
+        // 리뷰 등록하기
+        PointEventRequest request2 = PointEventRequest.create()
+                .type("REVIEW")
+                .action("ADD");
+
+        request2.setUserId("userId");
+        request2.setContent("내용내용");// 1점
+        request2.setPlaceId("placeId"); // 보너스 1점
+        request2.setReviewId("reviewId");
+        List<String> photos1 = new ArrayList<>();//빈 객체라도 들어와야함.
+        request2.setAttachedPhotoIds(photos1);
+        photos1.add("photoId1"); //사진등록 1점
+
+        System.out.println(request2.toString());
+
+        ResultActions results2 = mvc.perform(post("/events")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request2))
+                ).andExpect(status().isOk())
+                .andDo(print());
+
+
+        // 리뷰 삭제하기
+        PointEventRequest request3 = PointEventRequest.create()
+                .type("REVIEW")
+                .action("DELETE");
+
+        request3.setUserId("userId");
+        request3.setPlaceId("placeId");
+        request3.setReviewId("reviewId");
+
+        System.out.println(request3.toString());
+
+
+
+        ResultActions results3 = mvc.perform(post("/events")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request3))
+                ).andExpect(status().isOk())
+                .andDo(print());
+
+
+
+
+        /**when**/
+        // 리뷰 등록하기
+        PointEventRequest request4 = PointEventRequest.create()
+                .type("REVIEW")
+                .action("ADD");
+
+        request4.setUserId("userId");
+        request4.setContent("내용내용");// 1점
+        request4.setPlaceId("placeId"); // 보너스 1점
+        request4.setReviewId("reviewId4");
+        List<String> photos4 = new ArrayList<>();//빈 객체라도 들어와야함.
+        request4.setAttachedPhotoIds(photos1);
+        photos1.add("photoId1"); //사진등록 1점
+
+        System.out.println(request2.toString());
+
+
+        /**then**/
+        ResultActions results4 = mvc.perform(post("/events")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request4))
                 ).andExpect(status().isOk())
                 .andDo(print());
 
