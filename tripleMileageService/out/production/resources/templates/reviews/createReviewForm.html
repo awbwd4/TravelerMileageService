@@ -1,0 +1,64 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <script>
+        function insertReview
+
+
+
+    </script>
+
+
+
+</head>
+<body>
+<div class="container">
+    <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+    <form role="form" action="/reviews/new" th:object="${reviewForm}" method="post">
+<!--    <form role="form" action="/reviews/new" method="post">-->
+
+        <div class="form-group">
+            <label for="user">사용자</label>
+            <select name="userId" id="user" class="form-control">
+                <option value="">사용자 선택</option>
+                <option th:each="user : ${users}"
+                        th:value="${user.uuid}"
+                        th:text="${user.name}" />
+            </select>
+            <p th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}">Incorrect date</p>
+        </div>
+
+        <div class="form-group">
+            <label for="place">장소</label>
+            <select name="placeId" id="place" class="form-control">
+                <option value="">장소 선택</option>
+                <option th:each="place : ${places}"
+                        th:value="${place.uuid}"
+                        th:text="${place.name}" />
+            </select>
+            <p th:if="${#fields.hasErrors('placeId')}" th:errors="*{placeId}">Incorrect date</p>
+        </div>
+
+        <div class="form-group">
+            <label th:for="content">내용</label>
+            <input type="text" th:field="*{content}" class="form-control" placeholder="내용을 입력하세요"
+                   th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">
+            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Incorrect date</p>
+        </div>
+
+<!--        <div class="form-group">-->
+<!--            <label th:for="content">사진</label>-->
+<!--            <input type="text" th:field="*{content}" class="form-control" placeholder="내용을 입력하세요"-->
+<!--                   th:class="${#fields.hasErrors('content')}? 'form-control fieldError' : 'form-control'">-->
+<!--            <p th:if="${#fields.hasErrors('content')}" th:errors="*{content}">Incorrect date</p>-->
+<!--        </div>-->
+
+        <button type="submit" class="btn btn-primary" th:onclick="insertReview([[${board.idx}]])">Submit</button>
+
+    </form>
+    <br/>
+    <div th:replace="fragments/footer :: footer" />
+</div> <!-- /container -->
+</body>
+</html>
