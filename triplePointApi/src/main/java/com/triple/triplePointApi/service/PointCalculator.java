@@ -3,6 +3,7 @@ package com.triple.triplePointApi.service;
 import com.triple.triplePointApi.domain.PointHistory;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@Slf4j
 @Component
 public class PointCalculator {
 
@@ -28,7 +30,7 @@ public class PointCalculator {
     /**리뷰 생성시**/
     public int createAddPoint(String placeId, List<String> photos) {
 
-        System.out.println("=========PointCalculator.createAddPoint========");
+        log.info("=========PointCalculator.createAddPoint========");
 
         // 리뷰 생성시 포인트 부여
         String type = "ADD";
@@ -50,7 +52,7 @@ public class PointCalculator {
      * 리뷰 수정시
      **/
     public int modifiedPoint(String userId, String placeId, List<String> photos) {
-        System.out.println("=========PointCalculator.modifiedPoint========");
+        log.info("=========PointCalculator.modifiedPoint========");
         int modifiedPoint = 0;
 
         // 수정된 리뷰의 사진 여부
@@ -67,11 +69,9 @@ public class PointCalculator {
 
         if(!findPointHistory.isPhoto() & isPhotoExist){
         // 더해야할 포인트 : 기존에는 사진이 없었고, 수정후 사진 존재
-            System.out.println(" // 더해야할 포인트 : 기존에는 사진이 없었고, 수정후 사진 존재");
             modifiedPoint = 1;
         } else if (findPointHistory.isPhoto() & !isPhotoExist) {
         // 빼야 할 포인트 : 기존에는 사진이 있었고, 수정후 사진 미존재
-            System.out.println("// 빼야 할 포인트 : 기존에는 사진이 있었고, 수정후 사진 미존재");
             modifiedPoint = -1;
         }
 
@@ -83,7 +83,7 @@ public class PointCalculator {
      * 리뷰 삭제시
      **/
     public int deletePoint(String userId, String placeId) {
-        System.out.println("=========PointCalculator.deletePoint========");
+        log.info("=========PointCalculator.deletePoint========");
         //삭제할 점수 계산
         int resultPoint = 0;
 
@@ -102,7 +102,7 @@ public class PointCalculator {
 
     //사진 존재여부 체크
     public boolean existPhoto(List<String> photos) {
-        System.out.println("=========PointCalculator.existPhoto========");
+        log.info("=========PointCalculator.existPhoto========");
         if(photos.size() > 0){
             return true;
         }else{
@@ -114,7 +114,7 @@ public class PointCalculator {
     * 보너스 점수대상 여부 확인
     * **/
     public boolean bonus(String placeId) {
-        System.out.println("=========PointCalculator.bonus========");
+        log.info("=========PointCalculator.bonus========");
 
         /* 1. 첫 등록자인가? (히스토리 테이블내 건수 없음)*/
 
@@ -144,6 +144,7 @@ public class PointCalculator {
 
     //첫 등록자 여부
     private List<PointHistory> getPointHistories(String placeId) {
+        log.info("=========PointCalculator.getPointHistories========");
         List<PointHistory> findPlaceHistory = em.createQuery("select h from PointHistory h" +
                         " where h.placeId = :placeId", PointHistory.class)
                 .setParameter("placeId", placeId)
@@ -155,6 +156,7 @@ public class PointCalculator {
 
 //  사용자별 가장 최근 히스토리가 DELETE인 그리드의 수
     private int getStatusHistoryCount(String placeId, String discriminator) {
+        log.info("=========PointCalculator.getStatusHistoryCount========");
         BigInteger count = (BigInteger) em.createNativeQuery("select count(1)" +
                 " from point_history" +
                 " where (user_id, point_history_id)" +
@@ -172,6 +174,7 @@ public class PointCalculator {
 
     // 등록자의 수
     private int getReviewerCount(String placeId) {
+        log.info("=========PointCalculator.getReviewerCount========");
         BigInteger userCount = (BigInteger) em.createNativeQuery("select count(1)" +
                         " from" +
                         " (select 1 from point_history" +
@@ -181,8 +184,6 @@ public class PointCalculator {
         return userCount.intValue();
 
     }
-
-
 
 }
 

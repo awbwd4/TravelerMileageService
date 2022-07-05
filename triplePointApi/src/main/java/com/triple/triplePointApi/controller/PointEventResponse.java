@@ -1,6 +1,5 @@
 package com.triple.triplePointApi.controller;
 
-import com.triple.triplePointApi.dto.StatusEnum;
 import lombok.Data;
 
 @Data

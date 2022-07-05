@@ -2,6 +2,7 @@ package com.triple.triplePointApi.repository;
 
 import com.triple.triplePointApi.domain.PointHistory;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -9,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class PointHistoryRepositoryImpl {
@@ -22,7 +24,7 @@ public class PointHistoryRepositoryImpl {
      **/
     // 포인트 생성
     public Long create(PointHistory pointHistory) {
-        System.out.println("=======PointRepository.create()=======");
+        log.info("=======PointRepository.create()=======");
         em.persist(pointHistory);
         return pointHistory.getSeq();
     }
@@ -31,7 +33,7 @@ public class PointHistoryRepositoryImpl {
      * Read
      **/
     public Optional<PointHistory> findMostRecentPointHistory(String userId, String placeId) {
-        System.out.println("=======PointRepository.findPointHistoryByReviewId()=======");
+        log.info("=======PointRepository.findPointHistoryByReviewId()=======");
         List<PointHistory> historyList =em.createQuery("select h" +
                         " from PointHistory h" +
                         " where h.seq" +
@@ -45,7 +47,7 @@ public class PointHistoryRepositoryImpl {
         return historyList.stream().findAny();
     }
     public Optional<PointHistory> findMostRecentPointHistoryByReviewId(String reviewId) {
-        System.out.println("=======PointRepository.findPointHistoryByReviewId()=======");
+        log.info("=======PointRepository.findPointHistoryByReviewId()=======");
         List<PointHistory> historyList =  em.createQuery("select h" +
                         " from PointHistory h" +
                         " where h.seq" +
